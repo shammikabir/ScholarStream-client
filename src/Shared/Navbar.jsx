@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../Provider/AuthContext";
+import { Link } from "react-router";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   return (
-    <div className="navbar bg-base-100 shadow-sm">
-      <div className="navbar-start">
+    <div className="navbar bg-[#060b25] text-white  ">
+      <div className="navbar-start my-5">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -81,6 +82,7 @@ const Navbar = () => {
           />
         )}
       </div>
+      <Link to="/dashboard">Dashboard</Link>
       <div className="navbar-end">
         <a className="btn">Button</a>
       </div>

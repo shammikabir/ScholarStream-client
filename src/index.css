@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;400;600;800&display=swap");
+
+body {
+  background-color: #f6f4eb;
+}
+:root {
+  --primary-color: #1e3a8a; /* blue shade */
+  --secondary-color: #facc15; /* yellow shade */
+}
+
+.font {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-optical-sizing: auto;
+
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
