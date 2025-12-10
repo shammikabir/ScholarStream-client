@@ -3,8 +3,11 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
 import { app } from "../Firebase/Firebase.config";
 import { AuthContext } from "./AuthContext";
@@ -43,6 +46,20 @@ const AuthProvider = ({ children }) => {
       unsubscribe();
     };
   }, []);
+
+  //logout..............
+  const logOut = async () => {
+    setloading(true);
+    return signOut(auth);
+  };
+  //profile update
+  const updateUser = (updatedData) => {
+    return updateProfile(auth.currentUser, updatedData);
+  };
+  const sendPassResetEmailFunc = (email) => {
+    setloading(true);
+    return sendPasswordResetEmail(auth, email);
+  };
   //object...............
   const authData = {
     createUser,
@@ -52,6 +69,9 @@ const AuthProvider = ({ children }) => {
     setloading,
     user,
     setuser,
+    logOut,
+    updateUser,
+    sendPassResetEmailFunc,
   };
 
   return (

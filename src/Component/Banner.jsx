@@ -1,21 +1,36 @@
 import React from "react";
-import heroImg from "../assets/Tution_kids_png-removebg-preview.png"; // your image here
+import heroImg from "../assets/bgimg2.png";
+import bannerBg from "../assets/Untitled design (4).png";
+import Typewriter from "typewriter-effect";
+import { Search, Users, FileText, Award } from "lucide-react";
 
 const Banner = () => {
   return (
-    <div className="w-full bg-[#060b25] text-white font">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between">
+    <div className="w-full bg-gradient-to-r from-[#1a3c30] via-[#276B51] to-[#2C6B58] text-white font-sans">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between ">
         {/* LEFT TEXT */}
-        <div className="lg:w-1/2">
-          <p className="text-blue-400 font-semibold uppercase tracking-wide">
-            Welcome to ScholarStream
-          </p>
+        <div className="lg:w-[55%] ">
+          {/* Welcome Badge */}
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-yellow-300"></div>
+            <p className="text-white font-semibold uppercase tracking-wide">
+              Welcome to ScholarStream
+            </p>
+          </div>
 
-          <h1 className="text-4xl lg:text-5xl font-bold leading-tight mt-3">
-            We are determined to achieve the
-            <span className="text-blue-400 block">
-              highest academic excellence
-            </span>
+          <h1 className="text-4xl lg:text-5xl font-bold leading-tight mt-5">
+            <Typewriter
+              options={{
+                strings: [
+                  "We are determined to achieve the highest academic excellence",
+                  "Empowering students with scholarship opportunities",
+                  "Smart & Modern Scholarship Management System",
+                ],
+                autoStart: true,
+                loop: true,
+                delay: 40,
+              }}
+            />
           </h1>
 
           <p className="mt-4 text-gray-300">
@@ -23,24 +38,26 @@ const Banner = () => {
             transparency with our modern management system.
           </p>
 
-          <div className="mt-6 flex gap-4">
-            <button className="btn btn-primary">Take a Tour</button>
-            <button className="btn btn-outline text-white border-white hover:bg-white hover:text-black">
-              Learn More
+          <div className="mt-6">
+            <button className="flex items-center gap-2 bg-amber-50 font-bold text-black px-6 py-3 rounded-lg shadow-md hover:bg-yellow-300">
+              <Search size={18} className="font-bold" />
+              Search Scholarship
             </button>
           </div>
         </div>
 
         {/* RIGHT IMAGE */}
-        <div className="lg:w-1/2 relative mt-10 lg:mt-0">
+        <div className="lg:w-1/2 relative mt-20 lg:mt-25">
           {/* Background Golden Circle */}
-          {/* <div className="bg-yellow-300 w-80 h-80 lg:w-[420px] lg:h-[420px] rounded-full absolute top-1/2 -translate-y-1/2 right-10 opacity-80"></div> */}
+          {
+            <div className="bg-yellow-300 w-60 h-60 lg:w-[320px] lg:h-[320px] rounded-full absolute top-1/2 -translate-y-1/2 right-10 opacity-80"></div>
+          }
 
           {/* Main student image */}
           <img
             src={heroImg}
             alt="Students"
-            className="relative z-10 w-[80%] mx-50"
+            className="relative z-10 w-full mx-30"
           />
         </div>
       </div>

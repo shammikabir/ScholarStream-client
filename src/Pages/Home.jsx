@@ -3,15 +3,21 @@ import { AuthContext } from "../Provider/AuthContext";
 import Loading from "../Shared/Loading";
 import { Link } from "react-router";
 import Banner from "../Component/Banner";
+import useRole from "../Hooks/useRole";
+import StaticBannerinfo from "../Component/StaticBannerinfo";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
+  const [role] = useRole();
+  console.log(role);
 
   return (
     <>
       <Banner></Banner>
-      <div className="p-4 text-center">
+      <StaticBannerinfo></StaticBannerinfo>
+      {/* <div className="p-4 text-center">
         <p className="mb-4">User: {user?.email || "Not logged in"}</p>
+        <p className="mb-4">User: {role}</p>
         <div className="flex justify-center gap-4">
           <Link to="/auth/login" className="btn btn-primary">
             Login
@@ -20,8 +26,7 @@ const HomePage = () => {
             Register
           </Link>
         </div>
-      </div>
-      )
+      </div> */}
     </>
   );
 };

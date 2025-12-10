@@ -6,6 +6,8 @@ import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import DashboardLayout from "../Layout/DashboardLayout";
 import PrivateRoute from "../Private Route/PrivateRoute";
+import MyProfile from "../Pages/Dashboard/MyProfile";
+import AllScholarship from "../Pages/AllScholarship";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +17,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: "/allscholarship",
+        element: <AllScholarship></AllScholarship>,
       },
     ],
   },
@@ -39,5 +45,15 @@ export const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
+    children: [
+      {
+        index: true,
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
+      },
+    ],
   },
 ]);

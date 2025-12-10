@@ -1,17 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;400;600;800&display=swap");
-
 body {
   background-color: #f6f4eb;
 }
+
 :root {
   --primary-color: #1e3a8a; /* blue shade */
   --secondary-color: #facc15; /* yellow shade */
 }
 
-.font {
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-optical-sizing: auto;
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
 
+.font {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
   font-style: normal;
-  font-variation-settings: "wdth" 100;
+}
+
+.font-bold {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.libre-baskerville-regular-italic {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* index.css or global.css */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+  -webkit-appearance: none;
 }
