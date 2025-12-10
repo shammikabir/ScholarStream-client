@@ -6,7 +6,7 @@ import { Search, Users, FileText, Award } from "lucide-react";
 
 const Banner = () => {
   return (
-    <div className="w-full bg-gradient-to-r from-[#1a3c30] via-[#276B51] to-[#2C6B58] text-white font-sans">
+    <div className="w-full bg-linear-to-r from-[#1a3c30] via-[#276B51] to-[#2C6B58] text-white font-sans">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between ">
         {/* LEFT TEXT */}
         <div className="lg:w-[55%] ">

@@ -13,7 +13,7 @@ import {
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  console.log(user);
+
   const location = useLocation();
 
   // Function to check if a route is active

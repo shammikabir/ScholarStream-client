@@ -8,6 +8,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import PrivateRoute from "../Private Route/PrivateRoute";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import AllScholarship from "../Pages/AllScholarship";
+import AddScholarship from "../Pages/Dashboard/Admin/Addscholarship";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/addscholarship",
+        element: (
+          <PrivateRoute>
+            <AddScholarship></AddScholarship>
           </PrivateRoute>
         ),
       },

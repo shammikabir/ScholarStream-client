@@ -121,10 +121,10 @@ const ProfileSection = () => {
 
           {/* Action Buttons */}
           <div className="mt-6 flex flex-col md:flex-row gap-4">
-            <button className="bg-black hover:bg-lime-700 text-white px-6 py-2 rounded-xl shadow-lg transition-all">
+            <button className="bg-black hover:bg-green-700 text-white px-6 py-2 rounded-xl shadow-lg transition-all">
               Update Profile
             </button>
-            <button className="bg-black hover:bg-lime-700 text-white px-6 py-2 rounded-xl shadow-lg transition-all">
+            <button className="bg-black hover:bg-green-700 text-white px-6 py-2 rounded-xl shadow-lg transition-all">
               Change Password
             </button>
           </div>

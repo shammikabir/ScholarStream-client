@@ -20,7 +20,7 @@ const Sidebar = () => {
       {
         label: "Add Scholarship",
         icon: BsListCheck,
-        to: "/dashboard/add-scholarship",
+        to: "/dashboard/addscholarship",
       },
       {
         label: "Manage Scholarships",
