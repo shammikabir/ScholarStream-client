@@ -44,9 +44,9 @@ const AddScholarshipForm = () => {
 
   return (
     <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-5 px-4">
-      <div className="max-w-4xl w-full my-10 bg-white rounded-3xl shadow-xl overflow-hidden">
+      <div className="max-w-4xl w-full bg-white rounded-3xl shadow-xl overflow-hidden">
         {/* Header */}
-        <div className="w-full p-6 flex items-center justify-center gap-3 bg-gradient-to-r from-[#1a3c30] via-[#276B51] to-[#2C6B58] shadow-lg">
+        <div className="w-full p-6 flex items-center justify-center gap-3 bg-linear-to-r from-[#1a3c30] via-[#276B51] to-[#2C6B58] shadow-lg">
           <GiGraduateCap size={32} className="text-yellow-300" />
           <h2 className="text-2xl font-bold text-white">Add New Scholarship</h2>
         </div>
@@ -172,6 +172,7 @@ const AddScholarshipForm = () => {
                 <option value="Diploma">Diploma</option>
                 <option value="Bachelor">Bachelor</option>
                 <option value="Masters">Masters</option>
+                <option value="Masters">Phd</option>
               </select>
             </div>
           </div>

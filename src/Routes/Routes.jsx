@@ -9,6 +9,9 @@ import PrivateRoute from "../Private Route/PrivateRoute";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import AllScholarship from "../Pages/AllScholarship";
 import AddScholarship from "../Pages/Dashboard/Admin/Addscholarship";
+import Managescholarship from "../Pages/Dashboard/Admin/ManageScholarship/Managescholarship";
+import Analytics from "../Pages/Dashboard/Admin/Analytics";
+import ManageUser from "../Pages/Dashboard/Admin/ManageUser";
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +63,30 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddScholarship></AddScholarship>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/managescholarship",
+        element: (
+          <PrivateRoute>
+            <Managescholarship></Managescholarship>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/manageuser",
+        element: (
+          <PrivateRoute>
+            <ManageUser></ManageUser>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/analytics",
+        element: (
+          <PrivateRoute>
+            <Analytics></Analytics>
           </PrivateRoute>
         ),
       },

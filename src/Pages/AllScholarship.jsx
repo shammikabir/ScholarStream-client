@@ -37,11 +37,11 @@ const AllScholarship = () => {
 
       <hr className="border-3" />
 
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-15 md:px-26 px-4">
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-7 mt-15 md:px-26 px-4">
         {scholarships.map((item, index) => (
           <div
             key={index}
-            className="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-200  "
+            className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200  "
           >
             {/* Image */}
             <div className="relative">

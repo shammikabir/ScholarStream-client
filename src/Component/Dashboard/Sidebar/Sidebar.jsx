@@ -25,9 +25,9 @@ const Sidebar = () => {
       {
         label: "Manage Scholarships",
         icon: BsListCheck,
-        to: "/dashboard/scholarships",
+        to: "/dashboard/managescholarship",
       },
-      { label: "Manage Users", icon: BsPeople, to: "/dashboard/users" },
+      { label: "Manage Users", icon: BsPeople, to: "/dashboard/manageuser" },
       { label: "Analytics", icon: BsSpeedometer, to: "/dashboard/analytics" },
     ];
   } else if (role === "moderator") {

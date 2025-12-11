@@ -49,7 +49,7 @@ const Navbar = () => {
               </li>
               <li
                 className={
-                  isActive("/scholarships") ? "bg-white/20 rounded" : ""
+                  isActive("/allscholarship") ? "bg-white/20 rounded" : ""
                 }
               >
                 <Link to="/allscholarship" className="flex items-center gap-2">
@@ -118,7 +118,9 @@ const Navbar = () => {
               </Link>
             </li>
             <li
-              className={isActive("/scholarships") ? "bg-white/20 rounded" : ""}
+              className={
+                isActive("/allscholarship") ? "bg-white/20 rounded" : ""
+              }
             >
               <Link
                 to="/allscholarship"
