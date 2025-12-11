@@ -2,13 +2,14 @@ import { useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { BsSpeedometer, BsPeople, BsListCheck, BsPerson } from "react-icons/bs";
 import { GrLogout } from "react-icons/gr";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import useRole from "../../../Hooks/useRole";
 import { Crown } from "lucide-react";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const [role, isRoleLoading] = useRole();
+  const location = useLocation();
 
   if (isRoleLoading) return <div>Loading...</div>;
 
@@ -66,11 +67,11 @@ const Sidebar = () => {
       <aside
         className={`fixed inset-y-0 left-0 z-20 
         bg-linear-to-b from-[#1a3c30] via-[#276B51] to-[#2C6B58]
-        text-white w-64 transform 
+        text-white w-64 transform h-full flex flex-col
         ${open ? "translate-x-0" : "-translate-x-full"} 
         md:translate-x-0 transition duration-300`}
       >
-        {/* TOP – Black Premium Header */}
+        {/* TOP – Header */}
         <div className="p-6 bg-black flex items-center gap-3 border-b border-white/20">
           <div className="p-2 rounded-md bg-amber-50 flex items-center justify-center">
             <Crown size={22} className="text-[#2C6B58] font-bold" />
@@ -79,28 +80,32 @@ const Sidebar = () => {
         </div>
 
         {/* MENU */}
-        <nav className="mt-6 space-y-2 px-4">
-          {menuItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.to}
-              className="flex items-center gap-3 p-3 rounded-lg 
-              hover:bg-white/20 transition backdrop-blur-sm"
-            >
-              <item.icon size={20} />
-              <span className="font-medium">{item.label}</span>
-            </Link>
-          ))}
+        <nav className="mt-6 space-y-2 px-4 flex-1">
+          {menuItems.map((item, index) => {
+            const isActive = location.pathname === item.to;
+
+            return (
+              <Link
+                key={index}
+                to={item.to}
+                className={`flex items-center gap-3 p-3 rounded-lg transition 
+                  backdrop-blur-sm 
+                  ${
+                    isActive ? "bg-white/30 font-semibold" : "hover:bg-white/20"
+                  }`}
+              >
+                <item.icon size={20} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* HR Line */}
-        <div className="border-t border-white/30 mt-8 mx-4"></div>
-
-        {/* LOGOUT BUTTON */}
-        <div className="absolute bottom-5 w-full px-4">
+        {/* LOGOUT (Bottom Fixed) */}
+        <div className="px-4 mb-5">
           <button
             className="flex items-center gap-3 p-3 w-full rounded-lg 
-          hover:bg-red-500/80 bg-white/10 border border-white/20 transition"
+            hover:bg-red-500/80 bg-white/10 border border-white/20 transition"
           >
             <GrLogout size={20} />
             <span className="font-medium">Logout</span>

@@ -9,7 +9,7 @@ import { AuthContext } from "../../Provider/AuthContext";
 import { imageUpload } from "../../Utility";
 import useRole from "../../Hooks/useRole";
 
-const ProfileSection = () => {
+const MyProfile = () => {
   const { user, setuser } = useContext(AuthContext);
   const [role] = useRole();
   const [preview, setPreview] = useState(user?.photoURL || "");
@@ -55,10 +55,10 @@ const ProfileSection = () => {
   //         />
 
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-5 px-4">
+    <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-5 px-10">
       <div className="bg-white shadow-2xl rounded-3xl w-full max-w-4xl">
         {/* Cover Image */}
-        <div className="h-40 w-full overflow-hidden rounded-t-3xl">
+        <div className="h-30 w-full overflow-hidden rounded-t-3xl">
           <img
             src="https://images.unsplash.com/photo-1527549993586-dff825b37782"
             alt="banner"
@@ -81,12 +81,12 @@ const ProfileSection = () => {
           </p>
 
           {/* User ID */}
-          <p className="mt-1 text-gray-700 font-medium text-sm">
+          <p className="mt-2 text-gray-700 font-medium text-sm">
             User ID: {user?.uid}
           </p>
 
           {/* Bio Section */}
-          <div className="mt-6 w-full bg-gray-50 rounded-2xl p-6 shadow-md flex flex-col gap-3">
+          <div className="mt-5 w-full bg-gray-50 rounded-2xl p-6 shadow-md flex flex-col gap-3">
             <div className="flex justify-between items-center">
               <h3 className="text-gray-800 font-semibold text-lg flex items-center gap-2">
                 About Me
@@ -103,7 +103,7 @@ const ProfileSection = () => {
           </div>
 
           {/* Email & Phone */}
-          <div className="mt-6 w-full flex flex-col md:flex-row justify-between items-center bg-gray-50 rounded-2xl p-6 gap-6 shadow-md">
+          <div className="mt-5 w-full flex flex-col md:flex-row justify-between items-center bg-gray-50 rounded-2xl p-5 gap-6 shadow-md">
             <div className="flex flex-col items-center md:items-start">
               <span className="text-green-800 text-sm flex items-center gap-1">
                 <Mail size={16} /> Email
@@ -121,10 +121,10 @@ const ProfileSection = () => {
 
           {/* Action Buttons */}
           <div className="mt-6 flex flex-col md:flex-row gap-4">
-            <button className="bg-black hover:bg-green-700 text-white px-6 py-2 rounded-xl shadow-lg transition-all">
+            <button className="bg-black hover:bg-[#146c43] text-white px-6 py-2 rounded-xl shadow-lg transition-all">
               Update Profile
             </button>
-            <button className="bg-black hover:bg-green-700 text-white px-6 py-2 rounded-xl shadow-lg transition-all">
+            <button className="bg-black hover:bg-[#146c43] text-white px-6 py-2 rounded-xl shadow-lg transition-all">
               Change Password
             </button>
           </div>
@@ -134,4 +134,4 @@ const ProfileSection = () => {
   );
 };
 
-export default ProfileSection;
+export default MyProfile;

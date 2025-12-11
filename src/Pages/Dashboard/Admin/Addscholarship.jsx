@@ -160,6 +160,8 @@ const AddScholarshipForm = () => {
                 <option value="Full Fund">Full Fund</option>
                 <option value="Partial Fund">Partial Fund</option>
                 <option value="Self Fund">Self Fund</option>
+                <option value="Partial Fund">Merit Fund</option>
+                <option value="Self Fund">Research Fund</option>
               </select>
             </div>
             <div>

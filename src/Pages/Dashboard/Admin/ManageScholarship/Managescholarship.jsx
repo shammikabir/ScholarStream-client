@@ -4,6 +4,7 @@ import UpdateScholarship from "./UpdateScholarship";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { FaUniversity } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi";
+import Swal from "sweetalert2";
 
 const ManageScholarships = () => {
   const [scholarships, setScholarships] = useState([]);
@@ -27,20 +28,42 @@ const ManageScholarships = () => {
 
   // Delete scholarship
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this scholarship?"))
-      return;
+    // Show confirmation popup
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#D00000",
+      cancelButtonColor: "#B0B0B0",
+      confirmButtonText: "Yes, delete it!",
+    });
 
-    try {
-      const { data } = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/scholarships/${id}`
-      );
-      if (data.success) {
-        setScholarships((prev) => prev.filter((sch) => sch._id !== id));
-        alert("Scholarship deleted successfully!");
+    if (result.isConfirmed) {
+      try {
+        const { data } = await axios.delete(
+          `${import.meta.env.VITE_API_URL}/scholarships/${id}`
+        );
+
+        if (data.success) {
+          setScholarships((prev) => prev.filter((sch) => sch._id !== id));
+
+          Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "Scholarship has been deleted.",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to delete scholarship.",
+        });
       }
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete scholarship.");
     }
   };
 
