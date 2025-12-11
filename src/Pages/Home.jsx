@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import Banner from "../Component/Banner";
 import useRole from "../Hooks/useRole";
 import StaticBannerinfo from "../Component/StaticBannerinfo";
+import TopScholarships from "./TopScholarships";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -15,18 +16,7 @@ const HomePage = () => {
     <>
       <Banner></Banner>
       <StaticBannerinfo></StaticBannerinfo>
-      {/* <div className="p-4 text-center">
-        <p className="mb-4">User: {user?.email || "Not logged in"}</p>
-        <p className="mb-4">User: {role}</p>
-        <div className="flex justify-center gap-4">
-          <Link to="/auth/login" className="btn btn-primary">
-            Login
-          </Link>
-          <Link to="/auth/register" className="btn btn-secondary">
-            Register
-          </Link>
-        </div>
-      </div> */}
+      <TopScholarships></TopScholarships>
     </>
   );
 };
