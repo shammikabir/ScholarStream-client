@@ -5,6 +5,7 @@ import { FaUniversity } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { GiWorld } from "react-icons/gi";
 import { GiGraduateCap } from "react-icons/gi";
+import { Link } from "react-router";
 
 const fetchScholarships = async () => {
   const { data } = await axios.get(
@@ -141,9 +142,15 @@ const AllScholarship = () => {
               </div>
 
               {/* Button */}
-              <button className="w-full py-2 bg-black  text-white font-semibold rounded-lg text-sm transition-all mb-3 hover:bg-green-700 ">
+              <Link
+                to={`/scholarshipdetails/${item._id}`}
+                className="block w-full py-2 bg-black text-white font-semibold
+                rounded-lg text-sm transition-all mb-3 hover:bg-green-700
+                text-center"
+              >
+                {" "}
                 View Details
-              </button>
+              </Link>
             </div>
           </div>
         ))}

@@ -6,6 +6,8 @@ import Banner from "../Component/Banner";
 import useRole from "../Hooks/useRole";
 import StaticBannerinfo from "../Component/StaticBannerinfo";
 import TopScholarships from "./TopScholarships";
+import Testimonials from "./Testimonials";
+import FAQSection from "./FAQSection";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -17,6 +19,8 @@ const HomePage = () => {
       <Banner></Banner>
       <StaticBannerinfo></StaticBannerinfo>
       <TopScholarships></TopScholarships>
+      <Testimonials></Testimonials>
+      <FAQSection></FAQSection>
     </>
   );
 };
