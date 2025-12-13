@@ -13,6 +13,9 @@ import Managescholarship from "../Pages/Dashboard/Admin/ManageScholarship/Manage
 import Analytics from "../Pages/Dashboard/Admin/Analytics";
 import ManageUser from "../Pages/Dashboard/Admin/ManageUser";
 import ScholarshipDetails from "../Pages/ScholarshipDetails";
+import CheckOut from "../Pages/Payment/CheckOut";
+import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
+import PaymentCancel from "../Pages/Payment/PaymentCancle";
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +32,35 @@ export const router = createBrowserRouter([
       },
       {
         path: "/scholarshipdetails/:id",
-        element: <ScholarshipDetails></ScholarshipDetails>,
+        element: (
+          <PrivateRoute>
+            <ScholarshipDetails></ScholarshipDetails>,
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/checkout/:id",
+        element: (
+          <PrivateRoute>
+            <CheckOut></CheckOut>,
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment-success",
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess></PaymentSuccess>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment-cancle",
+        element: (
+          <PrivateRoute>
+            <PaymentCancel></PaymentCancel>
+          </PrivateRoute>
+        ),
       },
     ],
   },

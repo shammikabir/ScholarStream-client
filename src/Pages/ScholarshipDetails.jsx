@@ -115,8 +115,11 @@ const ScholarshipDetails = () => {
             </div>
 
             {/* Apply Button */}
+            {/* Apply Button */}
             <button
-              onClick={() => navigate(`/checkout/${id}`)}
+              onClick={() =>
+                navigate(`/checkout/${id}`, { state: { scholarship } })
+              }
               className="self-start px-10 py-4 bg-[#276B51] hover:bg-[#1a3c30] text-white text-xl font-bold rounded-lg shadow-lg transition duration-300"
             >
               Apply Now
