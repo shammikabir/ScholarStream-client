@@ -16,6 +16,7 @@ import ScholarshipDetails from "../Pages/ScholarshipDetails";
 import CheckOut from "../Pages/Payment/CheckOut";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import PaymentCancel from "../Pages/Payment/PaymentCancle";
+import MyApplication from "../Pages/Dashboard/Students/MyApplications/MyApplication";
 
 export const router = createBrowserRouter([
   {
@@ -123,6 +124,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Analytics></Analytics>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/myapplications",
+        element: (
+          <PrivateRoute>
+            <MyApplication></MyApplication>
           </PrivateRoute>
         ),
       },

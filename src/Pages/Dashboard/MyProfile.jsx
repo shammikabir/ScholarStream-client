@@ -55,8 +55,8 @@ const MyProfile = () => {
   //         />
 
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-5 px-10">
-      <div className="bg-white shadow-2xl rounded-3xl w-full max-w-4xl">
+    <div className="flex justify-center items-start min-h-screen pt-5 px-10">
+      <div className="shadow-2xl bg-white  rounded-3xl w-full max-w-4xl">
         {/* Cover Image */}
         <div className="h-30 w-full overflow-hidden rounded-t-3xl">
           <img

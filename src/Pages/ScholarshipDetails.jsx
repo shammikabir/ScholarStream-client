@@ -4,15 +4,16 @@ import axios from "axios";
 import { TbListDetails } from "react-icons/tb";
 import { AuthContext } from "../Provider/AuthContext";
 import ReviewSection from "./Reviewsection";
+import Loading from "../Shared/Loading";
+import Swal from "sweetalert2";
 
 const ScholarshipDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, loading, setloading } = useContext(AuthContext);
 
   const [scholarship, setScholarship] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,17 +30,81 @@ const ScholarshipDetails = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        setloading(false);
       }
     };
     fetchData();
   }, [id]);
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (loading) return <Loading></Loading>;
   if (!scholarship)
     return (
       <p className="text-center mt-10 text-red-500">Scholarship not found!</p>
     );
+  const handleApply = async () => {
+    if (!user) {
+      Swal.fire({
+        icon: "warning",
+        title: "Login required",
+        text: "Please login to apply for this scholarship",
+      });
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to apply for this scholarship",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#276B51",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Apply",
+    });
+
+    if (!result.isConfirmed) return;
+
+    const applicationData = {
+      scholarshipId: scholarship._id,
+      scholarshipName: scholarship.scholarshipName,
+      universityName: scholarship.universityName,
+      universityAddress: `${scholarship.city}, ${scholarship.country}`,
+      subjectCategory: scholarship.scholarshipCategory,
+      fees:
+        Number(scholarship.applicationFees || 0) +
+        Number(scholarship.serviceCharge || 0),
+
+      studentName: user.displayName,
+      studentEmail: user.email,
+    };
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/applications`,
+        applicationData
+      );
+
+      if (res.data.insertedId) {
+        Swal.fire({
+          icon: "success",
+          title: "Application Submitted!",
+          text: "Proceed to payment",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        navigate(`/checkout/${scholarship._id}`, {
+          state: { scholarship },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: "Something went wrong",
+      });
+    }
+  };
 
   return (
     <div>
@@ -117,9 +182,7 @@ const ScholarshipDetails = () => {
             {/* Apply Button */}
             {/* Apply Button */}
             <button
-              onClick={() =>
-                navigate(`/checkout/${id}`, { state: { scholarship } })
-              }
+              onClick={handleApply}
               className="self-start px-10 py-4 bg-[#276B51] hover:bg-[#1a3c30] text-white text-xl font-bold rounded-lg shadow-lg transition duration-300"
             >
               Apply Now

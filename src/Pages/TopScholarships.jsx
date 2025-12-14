@@ -92,14 +92,14 @@ const TopScholarships = () => {
             </div>
 
             {/* BUTTON */}
-            <Link to={`/scholarships/${sch._id}`}>
+            <Link to={`/scholarshipdetails/${sch._id}`}>
               <button
                 className="
                   mt-5 w-full py-2.5 
-                  bg-black text-white 
+                  text-white 
                   rounded-lg font-semibold 
                   transition 
-                  hover:bg-[#276B51]
+                 bg-[#276B51] hover:bg-[#1a3c30]
                   shadow-md hover:shadow-xl
                 "
               >

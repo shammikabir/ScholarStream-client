@@ -47,7 +47,7 @@ const Sidebar = () => {
       {
         label: "My Applications",
         icon: BsListCheck,
-        to: "/dashboard/my-applications",
+        to: "/dashboard/myapplications",
       },
       { label: "My Reviews", icon: BsListCheck, to: "/dashboard/my-reviews" },
     ];
