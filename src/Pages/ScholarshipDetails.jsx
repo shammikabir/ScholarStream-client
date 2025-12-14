@@ -11,6 +11,7 @@ const ScholarshipDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user, loading, setloading } = useContext(AuthContext);
+  const [isApplied, setIsApplied] = useState(false);
 
   const [scholarship, setScholarship] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -27,14 +28,29 @@ const ScholarshipDetails = () => {
           `${import.meta.env.VITE_API_URL}/reviews/${id}`
         );
         setReviews(Array.isArray(reviewsRes.data) ? reviewsRes.data : []);
+
+        // ✅ already applied check
+        if (user?.email) {
+          const checkRes = await axios.get(
+            `${import.meta.env.VITE_API_URL}/applications/check`,
+            {
+              params: {
+                scholarshipId: id,
+                email: user.email,
+              },
+            }
+          );
+          setIsApplied(checkRes.data.applied);
+        }
       } catch (error) {
         console.error(error);
       } finally {
         setloading(false);
       }
     };
+
     fetchData();
-  }, [id]);
+  }, [id, user]);
 
   if (loading) return <Loading></Loading>;
   if (!scholarship)
@@ -183,9 +199,15 @@ const ScholarshipDetails = () => {
             {/* Apply Button */}
             <button
               onClick={handleApply}
-              className="self-start px-10 py-4 bg-[#276B51] hover:bg-[#1a3c30] text-white text-xl font-bold rounded-lg shadow-lg transition duration-300"
+              disabled={isApplied}
+              className={`self-start px-10 py-4 text-xl font-bold rounded-lg shadow-lg transition duration-300
+    ${
+      isApplied
+        ? "bg-gray-200 border-gray-600 border cursor-not-allowed"
+        : "bg-[#276B51] hover:bg-[#1a3c30] text-white"
+    }`}
             >
-              Apply Now
+              {isApplied ? "Already Applied" : "Apply Now"}
             </button>
           </div>
         </div>

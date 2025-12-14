@@ -7,12 +7,13 @@ const CheckOut = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [scholarship, setScholarship] = useState(
     location.state?.scholarship || null
   );
   const [loading, setLoading] = useState(!scholarship);
 
-  // If user directly opens URL, fetch scholarship by ID
+  // Fetch scholarship if user opens URL directly
   useEffect(() => {
     if (!scholarship) {
       const fetchScholarship = async () => {
@@ -32,16 +33,24 @@ const CheckOut = () => {
     }
   }, [id, scholarship]);
 
+  // Safe number parsing
+  const applicationFees = Number(scholarship?.applicationFees || 0);
+  const serviceCharge = Number(scholarship?.serviceCharge || 0);
+  const totalPrice = applicationFees + serviceCharge;
+
   const handlePayNow = async () => {
     try {
-      if (!scholarship) return;
+      if (!scholarship) {
+        alert("Invalid payment data!");
+        return;
+      }
+
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/create-checkout-session`,
         {
           title: scholarship.scholarshipName,
-          price:
-            Number(scholarship.applicationFees || 0) +
-            Number(scholarship.serviceCharge || 0),
+          price: totalPrice,
+          scholarshipId: scholarship._id,
         }
       );
 
@@ -54,6 +63,7 @@ const CheckOut = () => {
   };
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
+
   if (!scholarship)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
@@ -70,46 +80,38 @@ const CheckOut = () => {
     );
 
   return (
-    <div className="min-h-screen  flex items-center justify-center px-4 py-5">
+    <div className="min-h-screen flex items-center justify-center px-4 py-5">
       <div className="max-w-5xl w-full grid lg:grid-cols-2 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] bg-white">
         {/* LEFT – SUMMARY */}
-        <div className="relative p-10 text-white bg-linear-to-br from-[#0f3d2e] via-[#1f6f54] to-[#2a8c6a]">
-          <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative p-10 text-white bg-gradient-to-br from-[#0f3d2e] via-[#1f6f54] to-[#2a8c6a]">
+          <h2 className="text-3xl font-bold mb-6 tracking-wide">
+            Checkout Summary
+          </h2>
 
-          <div className="relative z-10">
-            <h2 className="text-3xl font-bold mb-18 tracking-wide">
-              Checkout Summary
-            </h2>
+          <div className="space-y-5 text-lg">
+            <div>
+              <p className="text-white/70 text-sm">Scholarship</p>
+              <p className="font-semibold">{scholarship.scholarshipName}</p>
+            </div>
 
-            <div className="space-y-5 text-lg">
-              <div>
-                <p className="text-white/70 text-sm">Scholarship</p>
-                <p className="font-semibold">{scholarship.scholarshipName}</p>
-              </div>
+            <div>
+              <p className="text-white/70 text-sm">University</p>
+              <p className="font-semibold">{scholarship.universityName}</p>
+            </div>
 
-              <div>
-                <p className="text-white/70 text-sm">University</p>
-                <p className="font-semibold">{scholarship.universityName}</p>
-              </div>
+            <div className="flex justify-between border-b border-white/20 pb-3">
+              <span className="text-white/80">Application Fee</span>
+              <span>${applicationFees}</span>
+            </div>
 
-              <div className="flex justify-between border-b border-white/20 pb-3">
-                <span className="text-white/80">Application Fee</span>
-                <span>${scholarship.applicationFees}</span>
-              </div>
+            <div className="flex justify-between">
+              <span className="text-white/80">Service Charge</span>
+              <span>${serviceCharge}</span>
+            </div>
 
-              <div className="flex justify-between">
-                <span className="text-white/80">Service Charge</span>
-                <span>${scholarship.serviceCharge}</span>
-              </div>
-
-              <div className="mt-6 p-4 rounded-2xl bg-white/15 backdrop-blur-md flex justify-between items-center">
-                <span className="text-lg font-medium">Total Payable</span>
-                <span className="text-2xl font-bold">
-                  $
-                  {Number(scholarship.applicationFees) +
-                    Number(scholarship.serviceCharge)}
-                </span>
-              </div>
+            <div className="mt-6 p-4 rounded-2xl bg-white/15 backdrop-blur-md flex justify-between items-center">
+              <span className="text-lg font-medium">Total Payable</span>
+              <span className="text-2xl font-bold">${totalPrice}</span>
             </div>
           </div>
         </div>
@@ -127,8 +129,7 @@ const CheckOut = () => {
 
             <button
               onClick={handlePayNow}
-              className="w-full py-4 rounded-2xl text-xl font-semibold text-white
-              bg-[#276B51] hover:bg-[#1a3c30] "
+              className="w-full py-4 rounded-2xl text-xl font-semibold text-white bg-[#276B51] hover:bg-[#1a3c30]"
             >
               Pay Now
             </button>

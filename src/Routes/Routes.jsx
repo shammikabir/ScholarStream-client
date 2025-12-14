@@ -17,6 +17,7 @@ import CheckOut from "../Pages/Payment/CheckOut";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import PaymentCancel from "../Pages/Payment/PaymentCancle";
 import MyApplication from "../Pages/Dashboard/Students/MyApplications/MyApplication";
+import MyReviews from "../Pages/Dashboard/Students/MyReviews/MyReviews";
 
 export const router = createBrowserRouter([
   {
@@ -132,6 +133,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyApplication></MyApplication>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/myreviews",
+        element: (
+          <PrivateRoute>
+            <MyReviews></MyReviews>
           </PrivateRoute>
         ),
       },
