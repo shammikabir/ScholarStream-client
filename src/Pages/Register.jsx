@@ -1,172 +1,218 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../Provider/AuthContext";
 import { imageUpload, saveOrUpdateUser } from "../Utility";
 import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { updateProfile } from "firebase/auth";
+import loginimg from "../assets/login.png";
 
 const Register = () => {
   const { createUser, GoogleLogin } = useContext(AuthContext);
+  const [preview, setPreview] = useState(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  // -----------------------------
-  // Google Sign-In
-  // -----------------------------
   const handleGoogleSignIn = async () => {
     try {
       const { user } = await GoogleLogin();
-
-      // Save user to MongoDB
       await saveOrUpdateUser({
         name: user.displayName,
         email: user.email,
         image: user.photoURL,
       });
-
       toast.success("Signup Successful");
       navigate(from, { replace: true });
     } catch (err) {
-      console.log(err);
       toast.error(err.message);
     }
   };
 
-  // -----------------------------
-  // Form Submit Handler
-  // -----------------------------
   const onSubmit = async (data) => {
     const { name, image, email, password } = data;
     const imageFile = image[0];
-
     try {
-      // 1Upload image to imgbb
       const imageURL = await imageUpload(imageFile);
-
-      // 2 Create Firebase User
       const result = await createUser(email, password);
-      const user = result.user;
-
-      // 3 Update Firebase Profile
-      await updateProfile(user, {
+      await updateProfile(result.user, {
         displayName: name,
         photoURL: imageURL,
       });
-
-      // 4 Save user to MongoDB
-      await saveOrUpdateUser({
-        name,
-        email,
-        image: imageURL,
-      });
-
+      await saveOrUpdateUser({ name, email, image: imageURL });
       toast.success("Registration Successful");
       navigate(from, { replace: true });
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };
 
+  const handleImagePreview = (e) => {
+    const file = e.target.files[0];
+    if (file) setPreview(URL.createObjectURL(file));
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+    <div className="min-h-screen bg-base-200 flex items-center justify-center px-3">
+      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+        {/* LEFT IMAGE */}
+        <div className="hidden lg:flex items-center justify-center bg-[#1b4636] p-6">
+          <img
+            src={loginimg}
+            alt="Register Illustration"
+            className="max-h-[80vh] w-auto"
+          />
+        </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Name */}
-          <div>
-            <label className="block mb-2 text-sm">Name</label>
-            <input
-              type="text"
-              placeholder="Enter Your Name"
-              className="w-full px-3 py-2 border rounded-md bg-gray-200"
-              {...register("name", {
-                required: "Name is required",
-                maxLength: 20,
-              })}
-            />
-            {errors.name && (
-              <p className="text-red-500 text-xs">{errors.name.message}</p>
-            )}
+        {/* RIGHT FORM */}
+        <div className="flex items-center justify-center p-6 sm:p-8">
+          <div className="w-full max-w-md">
+            <h2 className="text-3xl font-bold mb-2 text-gray-800">
+              Create Your Account
+            </h2>
+            <p className="text-gray-500 mb-6 text-sm">
+              Join and manage scholarships easily
+            </p>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              {/* Name */}
+              <div>
+                <label className="block mb-1 font-medium text-gray-700">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300
+                             focus:outline-none focus:ring-2 focus:ring-[#276B51]"
+                  {...register("name", { required: "Name is required" })}
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Image Upload */}
+              <div>
+                <label className="block mb-1 font-medium text-gray-700">
+                  Profile Photo
+                </label>
+                <div className="flex items-center gap-4">
+                  <label
+                    className="w-16 h-15 bg-gray-100 rounded-full border border-gray-300
+                                      flex items-center justify-center cursor-pointer overflow-hidden"
+                  >
+                    {preview ? (
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        className=" object-cover"
+                      />
+                    ) : (
+                      <span className="text-black text-sm">Upload</span>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      {...register("image", { required: "Photo is required" })}
+                      onChange={(e) => {
+                        handleImagePreview(e);
+                        register("image").onChange(e);
+                      }}
+                    />
+                  </label>
+                  <span className="text-gray-500 text-sm">
+                    Max 2MB. JPG/PNG.
+                  </span>
+                </div>
+                {errors.image && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.image.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block mb-1 font-medium text-gray-700">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300
+                             focus:outline-none focus:ring-2 focus:ring-[#276B51]"
+                  {...register("email", { required: "Email is required" })}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block mb-1 font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className="w-full px-3 py-2 rounded-xl border border-gray-300
+                             focus:outline-none focus:ring-2 focus:ring-[#276B51]"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: 6,
+                  })}
+                />
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Register Button */}
+              <button
+                type="submit"
+                className="w-full py-3 rounded-xl bg-[#276B51] text-white font-semibold text-lg hover:bg-[#1b4636] transition"
+              >
+                Register
+              </button>
+
+              {/* Google */}
+              <div
+                onClick={handleGoogleSignIn}
+                className="flex items-center justify-center gap-3 border py-2 rounded-xl cursor-pointer hover:bg-gray-100 transition"
+              >
+                <FcGoogle size={26} />
+                <span className="font-medium">Continue with Google</span>
+              </div>
+
+              {/* Login Link */}
+              <p className="text-center text-sm text-gray-600 pt-2">
+                Already have an account?{" "}
+                <Link
+                  to="/auth/login"
+                  className="text-[#276B51] font-semibold hover:underline"
+                >
+                  Login
+                </Link>
+              </p>
+            </form>
           </div>
-
-          {/* Photo Upload */}
-          <div>
-            <label className="block mb-2 text-sm">Upload Photo</label>
-            <input
-              type="file"
-              accept="image/*"
-              {...register("image", { required: "Photo is required" })}
-            />
-            {errors.image && (
-              <p className="text-red-500 text-xs">{errors.image.message}</p>
-            )}
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block mb-1 font-semibold">Email</label>
-            <input
-              type="email"
-              className="w-full p-3 border rounded-lg"
-              {...register("email", { required: "Email is required" })}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block mb-1 font-semibold">Password</label>
-            <input
-              type="password"
-              className="w-full p-3 border rounded-lg"
-              {...register("password", {
-                required: "Password is required",
-                minLength: 6,
-              })}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
-          </div>
-
-          {/* Google Sign-In */}
-          <div
-            onClick={handleGoogleSignIn}
-            className="flex justify-center items-center space-x-2 border p-2 cursor-pointer hover:bg-gray-100 rounded-md"
-          >
-            <FcGoogle size={32} />
-            <p>Continue with Google</p>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
-          >
-            Register
-          </button>
-        </form>
-
-        <p className="text-center mt-4 text-gray-600">
-          Already have an account?
-          <a href="/auth/login" className="text-blue-600 font-semibold ml-1">
-            Login
-          </a>
-        </p>
+        </div>
       </div>
     </div>
   );
