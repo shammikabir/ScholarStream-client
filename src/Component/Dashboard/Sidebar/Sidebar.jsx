@@ -1,17 +1,42 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { BsSpeedometer, BsPeople, BsListCheck, BsPerson } from "react-icons/bs";
 import { GrLogout } from "react-icons/gr";
 import { Link, useLocation } from "react-router";
 import useRole from "../../../Hooks/useRole";
 import { Crown } from "lucide-react";
+import { AuthContext } from "../../../Provider/AuthContext";
+import Swal from "sweetalert2";
+import Loading from "../../../Shared/Loading";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const [role, isRoleLoading] = useRole();
   const location = useLocation();
+  const { logOut } = useContext(AuthContext);
 
-  if (isRoleLoading) return <div>Loading...</div>;
+  if (isRoleLoading)
+    return (
+      <div>
+        Loading...<Loading></Loading>
+      </div>
+    );
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut();
+        Swal.fire("Logged Out!", "You have been logged out.", "success");
+      }
+    });
+  };
 
   let menuItems = [];
 
@@ -104,6 +129,7 @@ const Sidebar = () => {
         {/* LOGOUT (Bottom Fixed) */}
         <div className="px-4 mb-5">
           <button
+            onClick={handleLogout}
             className="flex items-center gap-3 p-3 w-full rounded-lg 
             hover:bg-red-500/80 bg-white/10 border border-white/20 transition"
           >

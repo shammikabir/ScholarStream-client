@@ -74,10 +74,10 @@ const ManageUser = () => {
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
 
       {/* Filter */}
-      <div className="mb-4">
-        <label className="mr-2 font-semibold">Filter by Role:</label>
+      <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center">
+        <label className="font-semibold">Filter by Role:</label>
         <select
-          className="border p-1 rounded"
+          className="border px-3 py-2 rounded-md lg:max-w-xs"
           value={filterRole}
           onChange={(e) => setFilterRole(e.target.value)}
         >
@@ -88,49 +88,50 @@ const ManageUser = () => {
         </select>
       </div>
 
-      {/* Users Table */}
-      <div className="overflow-x-auto border rounded-xl shadow">
+      {/* ===== DESKTOP  ===== */}
+      <div className="hidden lg:block md:hidden overflow-x-auto border rounded-xl shadow">
         <table className="table w-full">
-          <thead className="bg-[#1b4636] text-white text-sm sticky top-0 z-10">
+          <thead className="bg-[#1b4636] text-white text-sm ">
             <tr>
               <th>#</th>
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Action</th>
+              <th className="text-center">Action</th>
             </tr>
           </thead>
-          <tbody className="text-sm">
+          <tbody className="text-sm bg-white">
             {users.map((user, index) => (
-              <tr key={user.email} className="hover:bg-gray-100 transition-all">
+              <tr key={user.email} className="hover:bg-gray-100">
                 <td>{index + 1}</td>
                 <td>{user.name || "N/A"}</td>
-                <td>{user.email}</td>
+                <td className="break-all">{user.email}</td>
                 <td>{user.role}</td>
-                <td className="flex gap-2">
-                  {/* Role change dropdown */}
-                  <select
-                    className="border p-1 rounded"
-                    value={user.role}
-                    onChange={(e) =>
-                      handleRoleChange(user.email, e.target.value)
-                    }
-                  >
-                    <option value="student">Student</option>
-                    <option value="moderator">Moderator</option>
-                    <option value="admin">Admin</option>
-                  </select>
+                <td>
+                  <div className="flex flex-col lg:flex-row gap-2 justify-center">
+                    <select
+                      className="border px-2 py-1 rounded"
+                      value={user.role}
+                      onChange={(e) =>
+                        handleRoleChange(user.email, e.target.value)
+                      }
+                    >
+                      <option value="student">Student</option>
+                      <option value="moderator">Moderator</option>
+                      <option value="admin">Admin</option>
+                    </select>
 
-                  {/* Delete button */}
-                  <button
-                    onClick={() => handleDelete(user.email)}
-                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
-                  >
-                    Delete
-                  </button>
+                    <button
+                      onClick={() => handleDelete(user.email)}
+                      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
+
             {users.length === 0 && (
               <tr>
                 <td colSpan={5} className="text-center py-4 text-gray-500">
@@ -140,6 +141,44 @@ const ManageUser = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* ===== MOBILE CARD VIEW ===== */}
+      <div className="lg:hidden md:block space-y-4">
+        {users.map((user, index) => (
+          <div
+            key={user.email}
+            className="border rounded-xl p-4 shadow-sm bg-white"
+          >
+            <p className="text-sm text-gray-500">#{index + 1}</p>
+            <h3 className="font-semibold text-lg">{user.name || "N/A"}</h3>
+            <p className="text-sm break-all text-gray-600">{user.email}</p>
+
+            <div className="mt-3">
+              <span className="text-sm font-medium">Role:</span>
+              <select
+                className="border w-full mt-1 px-2 py-2 rounded"
+                value={user.role}
+                onChange={(e) => handleRoleChange(user.email, e.target.value)}
+              >
+                <option value="student">Student</option>
+                <option value="moderator">Moderator</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <button
+              onClick={() => handleDelete(user.email)}
+              className="w-full mt-3 bg-red-600 text-white py-2 rounded hover:bg-red-700"
+            >
+              Delete User
+            </button>
+          </div>
+        ))}
+
+        {users.length === 0 && (
+          <p className="text-center text-gray-500">No users found.</p>
+        )}
       </div>
     </div>
   );

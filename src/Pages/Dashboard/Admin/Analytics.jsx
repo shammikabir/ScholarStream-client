@@ -61,7 +61,7 @@ const Analytics = () => {
       </h1>
 
       {/* Top Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="flex items-center gap-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
           <div className="p-4 bg-green-100 text-black rounded-full">
             <FaUsers size={28} />
@@ -109,7 +109,7 @@ const Analytics = () => {
           </h2>
 
           <BarChart
-            width={450}
+            lg:width={450}
             height={300}
             data={universityData}
             margin={{ bottom: 50, top: 20 }}

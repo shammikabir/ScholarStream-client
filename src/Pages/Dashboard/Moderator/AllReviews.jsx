@@ -39,7 +39,7 @@ const AllReviews = () => {
       <h2 className="text-2xl font-bold mb-6 text-[#1b4636]">All Reviews</h2>
 
       {/* ================= DESKTOP TABLE ================= */}
-      <div className="hidden md:block overflow-x-auto bg-white rounded-2xl shadow">
+      <div className="hidden lg:block md:hidden overflow-x-auto bg-white rounded-lg shadow">
         <table className="w-full">
           <thead className="bg-[#1b4636] text-white">
             <tr>
@@ -92,7 +92,7 @@ const AllReviews = () => {
       </div>
 
       {/* ================= MOBILE CARD VIEW ================= */}
-      <div className="md:hidden space-y-4">
+      <div className="lg:hidden md:block space-y-4">
         {reviews.map((review) => (
           <div
             key={review._id}

@@ -70,7 +70,7 @@ const ManageScholarships = () => {
   return (
     <div className="p-4 md:p-0">
       {/* Desktop TABLE */}
-      <div className="hidden md:block overflow-x-auto shadow-xl rounded-xl border border-gray-200">
+      <div className="hidden lg:block md:hidden overflow-x-auto shadow-xl rounded-xl border border-gray-200">
         <table className="table w-full">
           <thead className="bg-[#1b4636] text-white text-sm sticky top-0 z-10">
             <tr>
@@ -141,7 +141,7 @@ const ManageScholarships = () => {
       </div>
 
       {/* Mobile CARD VIEW */}
-      <div className="md:hidden space-y-5">
+      <div className="lg:hidden md:block space-y-5">
         {scholarships.map((item) => (
           <div
             key={item._id}

@@ -5,6 +5,7 @@ import { FaUniversity } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { GiWorld, GiGraduateCap } from "react-icons/gi";
 import { Link } from "react-router";
+import Loading from "../Shared/Loading";
 
 const fetchScholarships = async () => {
   const { data } = await axios.get(
@@ -22,7 +23,7 @@ const AllScholarship = () => {
   if (isLoading) {
     return (
       <div className="text-center py-10 text-xl font-semibold">
-        Loading scholarships...
+        Loading scholarships...<Loading></Loading>
       </div>
     );
   }

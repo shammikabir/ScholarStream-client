@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../Provider/AuthContext";
 import { Link, useLocation } from "react-router";
+import Swal from "sweetalert2";
 import {
   Home,
   LayoutList,
@@ -10,41 +11,56 @@ import {
   Menu,
   Crown,
 } from "lucide-react";
+import { IoLogIn } from "react-icons/io5";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-
   const location = useLocation();
-
-  // Function to check if a route is active
   const isActive = (path) => location.pathname === path;
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut();
+        Swal.fire("Logged Out!", "You have been logged out.", "success");
+      }
+    });
+  };
 
   return (
     <div className="bg-black text-amber-50 shadow-md border-b border-white/10 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto navbar py-3">
-        {/* LEFT: PREMIUM WHITE LOGO */}
-        <div className="navbar-start flex items-center gap-3">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="p-2 rounded-md bg-amber-50 flex items-center justify-center">
-              <Crown size={22} className="text-[#2C6B58] font-bold" />
+      <div className="max-w-7xl mx-auto navbar py-3 px-4 md:px-6">
+        {/* LEFT: Logo */}
+        <div className="navbar-start flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-1">
+            <div className="p-1 rounded-md bg-amber-50 flex items-center justify-center">
+              <Crown size={20} className="text-[#2C6B58]" />
             </div>
-            <span className="text-2xl font-bold text-white tracking-wide">
+            <span className="text-xl md:text-2xl font-bold text-white tracking-wide">
               ScholarStream
             </span>
           </Link>
 
           {/* MOBILE MENU */}
-          <div className="dropdown lg:hidden ml-2">
-            <label tabIndex={0} className="btn btn-ghost">
-              <Menu size={22} />
+          <div className="dropdown lg:hidden">
+            <label tabIndex={0} className="btn btn-ghost p-1 md:ml-115 ml-30">
+              <Menu size={25} />
             </label>
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-[#0b143d] rounded-lg w-52 mt-3 p-2 shadow text-white"
             >
               <li className={isActive("/") ? "bg-white/20 rounded" : ""}>
-                <Link to="/" className="flex items-center gap-2">
-                  <Home size={18} /> Home
+                <Link to="/" className="flex items-center gap-2 px-2 py-1">
+                  <Home size={16} /> Home
                 </Link>
               </li>
               <li
@@ -52,11 +68,13 @@ const Navbar = () => {
                   isActive("/allscholarship") ? "bg-white/20 rounded" : ""
                 }
               >
-                <Link to="/allscholarship" className="flex items-center gap-2">
-                  <LayoutList size={18} /> All Scholarships
+                <Link
+                  to="/allscholarship"
+                  className="flex items-center gap-2 px-2 py-1"
+                >
+                  <LayoutList size={16} /> All Scholarships
                 </Link>
               </li>
-
               {!user && (
                 <>
                   <li
@@ -64,8 +82,11 @@ const Navbar = () => {
                       isActive("/auth/login") ? "bg-white/20 rounded" : ""
                     }
                   >
-                    <Link to="/auth/login" className="flex items-center gap-2">
-                      <LogIn size={18} /> Login
+                    <Link
+                      to="/auth/login"
+                      className="flex items-center gap-2 px-2 py-1"
+                    >
+                      <IoLogIn size={16} /> Login
                     </Link>
                   </li>
                   <li
@@ -75,14 +96,13 @@ const Navbar = () => {
                   >
                     <Link
                       to="/auth/register"
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 px-2 py-1"
                     >
-                      <UserPlus size={18} /> Register
+                      <UserPlus size={16} /> Register
                     </Link>
                   </li>
                 </>
               )}
-
               {user && (
                 <>
                   <li
@@ -90,14 +110,19 @@ const Navbar = () => {
                       isActive("/dashboard") ? "bg-white/20 rounded" : ""
                     }
                   >
-                    <Link to="/dashboard">Dashboard</Link>
+                    <Link
+                      to="/dashboard"
+                      className="flex items-center gap-2 px-2 py-1"
+                    >
+                      <LayoutList size={16} /> Dashboard
+                    </Link>
                   </li>
                   <li>
                     <button
-                      onClick={logOut}
-                      className="flex items-center gap-2"
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 px-2 py-1"
                     >
-                      <LogOut size={18} /> Logout
+                      <LogOut size={16} /> Logout
                     </button>
                   </li>
                 </>
@@ -106,15 +131,15 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* CENTER MENU */}
+        {/* CENTER MENU (Tablet/Desktop) */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-white font-medium gap-2">
+          <ul className="menu menu-horizontal px-1 text-white font-medium gap-1 md:gap-2">
             <li className={isActive("/") ? "bg-white/20 rounded" : ""}>
               <Link
                 to="/"
-                className="flex items-center gap-2 px-3 py-2 hover:bg-white/10 rounded transition"
+                className="flex items-center gap-1 px-3 py-2 hover:bg-white/10 rounded transition"
               >
-                <Home size={18} /> Home
+                <Home size={16} /> Home
               </Link>
             </li>
             <li
@@ -124,59 +149,57 @@ const Navbar = () => {
             >
               <Link
                 to="/allscholarship"
-                className="flex items-center gap-2 px-3 py-2 hover:bg-white/10 rounded transition"
+                className="flex items-center gap-1 px-3 py-2 hover:bg-white/10 rounded transition"
               >
-                <LayoutList size={18} /> All Scholarships
+                <LayoutList size={16} /> All Scholarships
               </Link>
             </li>
           </ul>
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="navbar-end flex items-center gap-3">
-          {/* Logged Out */}
+        <div className="navbar-end flex items-center gap-2">
           {!user && (
-            <div className="flex gap-2">
+            <div className="hidden lg:flex gap-2">
               <Link
                 to="/auth/login"
-                className="btn btn-outline btn-sm text-white border-white/50 hover:bg-white/10"
+                className="btn btn-outline  text-white border-white/50 hover:bg-white/30"
               >
+                {" "}
+                <IoLogIn size={20} />
                 Login
               </Link>
               <Link
                 to="/auth/register"
-                className="btn btn-sm bg-white/10 text-white border-none hover:bg-white/20"
+                className="btn btn-outline border-white/50 bg-white/10 text-white  hover:bg-white/30"
               >
+                {" "}
+                <UserPlus size={20} />
                 Register
               </Link>
             </div>
           )}
 
-          {/* Logged In */}
           {user && (
-            <div className="flex items-center gap-3">
-              {/* Dashboard Button */}
+            <div className="hidden lg:flex items-center gap-2">
               <Link
                 to="/dashboard"
                 className="px-4 py-2 text-sm rounded-lg bg-white/10 text-white font-semibold border border-white/20 hover:bg-white hover:text-black transition"
               >
                 Dashboard
               </Link>
-
-              {/* Logout Button */}
               <button
-                onClick={logOut}
-                className="px-4 py-2 text-sm rounded-lg bg-white/10 text-white font-semibold border border-red-400/30 hover:bg-red-500 transition flex items-center gap-1"
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm rounded-lg bg-white/10 text-white font-semibold border border-red-400/30 hover:bg-red-500 hover:text-white transition flex items-center gap-1"
               >
-                <LogOut size={18} /> Logout
+                <LogOut size={16} /> Logout
               </button>
 
-              {/* Profile Pic with Hover Tooltip */}
               <div className="relative group flex items-center">
                 <img
                   src={user?.photoURL}
-                  className="w-12 h-12 rounded-full border border-white object-cover "
-                  alt="user"
+                  alt="profile"
+                  className="w-10 h-10 rounded-full border border-white object-cover"
                 />
                 <span className="absolute top-1/2 left-full ml-2 px-2 py-1 text-xs rounded bg-white text-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap -translate-y-1/2">
                   {user.displayName || user.email}

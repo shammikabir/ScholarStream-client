@@ -4,21 +4,24 @@ const testimonials = [
   {
     name: "Jane Doe",
     role: "Master's Student, Germany",
-    photo: "https://randomuser.me/api/portraits/women/68.jpg",
+    photo:
+      "https://i.pinimg.com/originals/07/33/ba/0733ba760b29378474dea0fdbcb97107.png",
     message:
       "ScholarStream helped me secure a scholarship at my dream university. The process was smooth and the guidance invaluable!",
   },
   {
     name: "John Smith",
     role: "Undergraduate Student, USA",
-    photo: "https://randomuser.me/api/portraits/men/75.jpg",
+    photo:
+      "https://img.freepik.com/premium-photo/beautiful-woman-profile-picture_1013690-85.jpg?w=2000",
     message:
       "I never thought applying for scholarships could be this easy. Thanks to ScholarStream, I got a full scholarship!",
   },
   {
     name: "Priya Sharma",
     role: "PhD Candidate, UK",
-    photo: "https://randomuser.me/api/portraits/women/45.jpg",
+    photo:
+      "https://static.vecteezy.com/system/resources/previews/039/334/804/non_2x/ai-generated-indian-female-student-free-photo.jpg",
     message:
       "The platform is very intuitive and provides up-to-date scholarship information. Highly recommend it to every student!",
   },

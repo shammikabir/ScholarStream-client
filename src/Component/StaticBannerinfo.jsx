@@ -3,9 +3,9 @@ import { Users, FileText, Award } from "lucide-react";
 
 const StaticBannerInfo = () => {
   return (
-    <div className="w-full bg-black bg-opacity-90 py-10 flex flex-col md:flex-row justify-around items-center">
+    <div className="w-full bg-black bg-opacity-90 py-10 flex  flex-col md:flex-row justify-around items-center">
       {/* Active Users */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 md:mr-0 mr-8">
         <Users className="text-yellow-300" size={38} />
         <div className="text-white">
           <p className="font-bold text-3xl">120K+</p>
@@ -23,7 +23,7 @@ const StaticBannerInfo = () => {
       </div>
 
       {/* Scholarship Winners */}
-      <div className="flex items-center gap-3 mt-4 md:mt-0">
+      <div className="flex  items-center gap-3 my-4 md:my-0">
         <Award className="text-yellow-300" size={38} />
         <div className="text-white">
           <p className="font-bold text-3xl">50K+</p>

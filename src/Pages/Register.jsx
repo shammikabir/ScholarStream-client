@@ -162,6 +162,7 @@ const Register = () => {
               </div>
 
               {/* Password */}
+              {/* Password */}
               <div>
                 <label className="block mb-1 font-medium text-gray-700">
                   Password
@@ -169,13 +170,33 @@ const Register = () => {
                 <input
                   type="password"
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 rounded-xl border border-gray-300
-                             focus:outline-none focus:ring-2 focus:ring-[#276B51]"
+                  className={`w-full px-3 py-2 rounded-xl border
+      ${
+        errors.password
+          ? "border-red-500 focus:ring-red-500"
+          : "border-gray-300 focus:ring-[#276B51]"
+      }
+      focus:outline-none focus:ring-2`}
                   {...register("password", {
                     required: "Password is required",
-                    minLength: 6,
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                    validate: {
+                      hasUpper: (v) =>
+                        /[A-Z]/.test(v) ||
+                        "Must contain at least 1 uppercase letter",
+                      hasLower: (v) =>
+                        /[a-z]/.test(v) ||
+                        "Must contain at least 1 lowercase letter",
+                      hasNumber: (v) =>
+                        /[0-9]/.test(v) || "Must contain at least 1 number",
+                    },
                   })}
                 />
+
+                {/* Error Message */}
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.password.message}

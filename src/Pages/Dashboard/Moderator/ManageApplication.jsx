@@ -33,7 +33,7 @@ const ManageApplications = () => {
       <h2 className="text-2xl font-bold mb-6">Manage Applications</h2>
 
       {/* ===== Desktop & Tablet Table ===== */}
-      <div className="hidden md:block overflow-x-auto bg-white rounded-xl shadow">
+      <div className="hidden lg:block md:hidden overflow-x-auto bg-white rounded-xl shadow">
         <table className="table w-full">
           <thead className="bg-[#1b4636] text-white">
             <tr>
@@ -93,7 +93,7 @@ const ManageApplications = () => {
       </div>
 
       {/* ===== Mobile Card View ===== */}
-      <div className="md:hidden space-y-4">
+      <div className="lg:hidden md:block space-y-4">
         {applications.map((app) => (
           <div
             key={app._id}
