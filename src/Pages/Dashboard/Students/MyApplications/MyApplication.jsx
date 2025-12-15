@@ -7,6 +7,7 @@ import Loading from "../../../../Shared/Loading";
 import ApplicationDetails from "./ApplicationDetails";
 // import ApplicationEditModal from "./ApplicationEditModal";
 import AddReviewModal from "./AddReviewModal";
+import Swal from "sweetalert2";
 
 const MyApplication = () => {
   const { user, loading, setloading } = useContext(AuthContext);
@@ -39,25 +40,39 @@ const MyApplication = () => {
 
   // Delete function
   const handleDelete = async (appId) => {
-    if (!window.confirm("Are you sure you want to delete this application?"))
-      return;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This application will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/applications/${appId}`
       );
+
+      // Remove from state
       setApplications(applications.filter((app) => app._id !== appId));
+
+      Swal.fire("Deleted!", "Your application has been deleted.", "success");
     } catch (error) {
       console.error(error);
+      Swal.fire("Error!", "Failed to delete application", "error");
     }
   };
 
   // Update function for Edit modal
-  const handleUpdate = (updatedApp) => {
-    setApplications(
-      applications.map((app) => (app._id === updatedApp._id ? updatedApp : app))
-    );
-  };
+  // const handleUpdate = (updatedApp) => {
+  //   setApplications(
+  //     applications.map((app) => (app._id === updatedApp._id ? updatedApp : app))
+  //   );
+  // };
 
   // Add review function for Review modal
   const handleAddReview = (newReview) => {

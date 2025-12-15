@@ -37,9 +37,9 @@ const Sidebar = () => {
       {
         label: "Manage Applications",
         icon: BsListCheck,
-        to: "/dashboard/applications",
+        to: "/dashboard/manageapplications",
       },
-      { label: "All Reviews", icon: BsListCheck, to: "/dashboard/reviews" },
+      { label: "All Reviews", icon: BsListCheck, to: "/dashboard/allreviews" },
     ];
   } else if (role === "student") {
     menuItems = [

@@ -16,7 +16,7 @@ const DashboardTopBar = () => {
        
         h-22 bg-black text-white
         ml-64 w-[calc(100%-16rem)]
-        flex items-center justify-between
+        flex items-center justify-between 
         
       "
     >
