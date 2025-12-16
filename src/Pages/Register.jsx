@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../Provider/AuthContext";
-import { imageUpload, saveOrUpdateUser } from "../Utility";
+import useDocumentTitle, { imageUpload, saveOrUpdateUser } from "../Utility";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate, Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
@@ -9,6 +9,7 @@ import { updateProfile } from "firebase/auth";
 import loginimg from "../assets/login.png";
 
 const Register = () => {
+  useDocumentTitle("Register | ScholarStream");
   const { createUser, GoogleLogin } = useContext(AuthContext);
   const [preview, setPreview] = useState(null);
 

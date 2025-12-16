@@ -8,8 +8,10 @@ import StaticBannerinfo from "../Component/StaticBannerinfo";
 import TopScholarships from "./TopScholarships";
 import Testimonials from "./Testimonials";
 import FAQSection from "./FAQSection";
+import useDocumentTitle from "../Utility";
 
 const HomePage = () => {
+  useDocumentTitle(" ScholarStream");
   const { user } = useContext(AuthContext);
   const [role] = useRole();
   console.log(role);

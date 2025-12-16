@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Provider/AuthContext";
 import { Form, useLocation, useNavigate, Link } from "react-router";
 import { useForm } from "react-hook-form";
 import loginimg from "../assets/login.png";
+import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { Login, GoogleLogin, setloading } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -16,22 +19,43 @@ const Login = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state || "/";
+  const from = location.state?.from || "/";
+
+  useEffect(() => {
+    document.title = "Login | ScholarStream";
+  }, []);
+
+  // 🔐 JWT token নেওয়ার function
+  const getJWT = async (email) => {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
+      email,
+    });
+
+    localStorage.setItem("access-token", res.data.token);
+  };
 
   // ===== Email & Password Login =====
   const onSubmit = (data) => {
-    Login(data.email, data.password).then(() => {
-      reset(); // ✅ form clear
-      navigate(from);
-    });
+    Login(data.email, data.password)
+      .then(async (result) => {
+        await getJWT(result.user.email); // ✅ JWT save
+        reset();
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // ===== Google Login =====
   const handleGoogleSignin = () => {
-    GoogleLogin().then(() => {
-      setloading(false);
-      navigate(from);
-    });
+    GoogleLogin()
+      .then(async (result) => {
+        await getJWT(result.user.email); // ✅ JWT save
+        setloading(false);
+        navigate(from, { replace: true });
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -66,8 +90,7 @@ const Login = () => {
                   type="email"
                   placeholder="you@example.com"
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 
-                  focus:outline-none focus:ring-2 focus:ring-[#276B51] focus:border-[#276B51]
-                  transition shadow-sm"
+                  focus:outline-none focus:ring-2 focus:ring-[#276B51]"
                   {...register("email", { required: "Email is required" })}
                 />
                 {errors.email && (
@@ -77,21 +100,32 @@ const Login = () => {
                 )}
               </div>
 
-              {/* Password */}
+              {/* Password with Eye */}
               <div>
                 <label className="block mb-1 font-medium text-gray-700">
                   Password
                 </label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 
-                  focus:outline-none focus:ring-2 focus:ring-[#276B51] focus:border-[#276B51]
-                  transition shadow-sm"
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
-                />
+
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 
+                    focus:outline-none focus:ring-2 focus:ring-[#276B51]"
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
+                  />
+
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 
+                    cursor-pointer text-gray-500"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.password.message}
@@ -131,8 +165,8 @@ const Login = () => {
                 Continue with Google
               </button>
 
-              {/* Register Link */}
-              <p className="text-center text-sm text-gray-600 ">
+              {/* Register */}
+              <p className="text-center text-sm text-gray-600">
                 Don't have an account?{" "}
                 <Link
                   to="/auth/register"

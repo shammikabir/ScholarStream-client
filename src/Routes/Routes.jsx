@@ -20,6 +20,7 @@ import MyApplication from "../Pages/Dashboard/Students/MyApplications/MyApplicat
 import MyReviews from "../Pages/Dashboard/Students/MyReviews/MyReviews";
 import ManageApplication from "../Pages/Dashboard/Moderator/ManageApplication";
 import AllReviews from "../Pages/Dashboard/Moderator/AllReviews";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -102,7 +103,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/addscholarship",
         element: (
           <PrivateRoute>
-            <AddScholarship></AddScholarship>
+            <AdminRoute>
+              <AddScholarship></AddScholarship>
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
