@@ -5,11 +5,13 @@ import { MdOutlineLocationOn } from "react-icons/md";
 import { FaUniversity } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const ManageScholarships = () => {
   const [scholarships, setScholarships] = useState([]);
   const [selectedScholar, setSelectedScholar] = useState(null);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   // Fetch all scholarships
   useEffect(() => {
@@ -41,7 +43,7 @@ const ManageScholarships = () => {
 
     if (result.isConfirmed) {
       try {
-        const { data } = await axios.delete(
+        const { data } = await axiosSecure.delete(
           `${import.meta.env.VITE_API_URL}/scholarships/${id}`
         );
 

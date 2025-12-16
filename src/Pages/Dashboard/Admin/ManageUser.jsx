@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
   const [filterRole, setFilterRole] = useState("all");
+  const axiosSecure = useAxiosSecure();
 
   // Fetch users from backend with optional role filter
   const fetchUsers = async (role = "all") => {
     const url = `${import.meta.env.VITE_API_URL}/users/filter?role=${role}`;
 
-    const res = await axios.get(url);
+    const res = await axiosSecure.get(url);
 
     if (res.data.success) {
       setUsers(res.data.users);
@@ -26,7 +28,7 @@ const ManageUser = () => {
   // Handle role change
   const handleRoleChange = async (email, newRole) => {
     try {
-      const { data } = await axios.put(
+      const { data } = await axiosSecure.put(
         `${import.meta.env.VITE_API_URL}/user/update-role/${email}`,
         { role: newRole }
       );
@@ -55,7 +57,7 @@ const ManageUser = () => {
 
     if (result.isConfirmed) {
       try {
-        const { data } = await axios.delete(
+        const { data } = await axiosSecure.delete(
           `${import.meta.env.VITE_API_URL}/user/${email}`
         );
         if (data.success) {

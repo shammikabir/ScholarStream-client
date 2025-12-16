@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { imageUpload } from "../../../../Utility";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const UpdateScholarship = ({
   selectedScholar,
@@ -21,7 +22,9 @@ const UpdateScholarship = ({
     deadline: "",
   });
   const [imageFile, setImageFile] = useState(null); // for file input
-  const [uploading, setUploading] = useState(false); // loading state
+  const [uploading, setUploading] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  // loading state
 
   useEffect(() => {
     if (selectedScholar) setFormData(selectedScholar);
@@ -49,7 +52,7 @@ const UpdateScholarship = ({
       const { _id, ...updateData } = formData; // remove _id
       updateData.image = imageUrl; // set uploaded image URL
 
-      const { data } = await axios.put(
+      const { data } = await axiosSecure.put(
         `${import.meta.env.VITE_API_URL}/scholarships/${_id}`,
         updateData
       );

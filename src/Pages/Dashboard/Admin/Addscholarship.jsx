@@ -1,16 +1,19 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import axios from "axios";
 import { imageUpload } from "../../../Utility";
 import { GiGraduateCap } from "react-icons/gi";
 import { AuthContext } from "../../../Provider/AuthContext";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const AddScholarshipForm = () => {
   const { register, handleSubmit, reset } = useForm();
   const { loading, setloading } = useContext(AuthContext);
   const [imagePreview, setImagePreview] = useState("");
   const [imageFile, setImageFile] = useState(null);
+  const token = localStorage.getItem("access-token");
 
   const onSubmit = async (data) => {
     try {
@@ -28,15 +31,16 @@ const AddScholarshipForm = () => {
 
       await axios.post(
         `${import.meta.env.VITE_API_URL}/scholarships`,
-        scholarshipData
+        scholarshipData,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert("Scholarship added successfully!");
+      Swal.fire("Success", "Scholarship added successfully!", "success");
       reset();
       setImagePreview("");
     } catch (error) {
       console.error(error);
-      alert("Failed to add scholarship!");
+      Swal.fire("failed to add scholarship!");
     } finally {
       setloading(false);
     }

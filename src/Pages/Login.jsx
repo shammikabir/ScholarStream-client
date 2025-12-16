@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import loginimg from "../assets/login.png";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { Login, GoogleLogin, setloading } = useContext(AuthContext);
@@ -25,25 +26,49 @@ const Login = () => {
     document.title = "Login | ScholarStream";
   }, []);
 
-  // 🔐 JWT token নেওয়ার function
+  // ================= JWT =================
   const getJWT = async (email) => {
     const res = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
       email,
     });
-
     localStorage.setItem("access-token", res.data.token);
   };
 
+  // ================= SAVE USER =================
+  const saveUser = async (user) => {
+    await axios.post(`${import.meta.env.VITE_API_URL}/user`, {
+      email: user.email,
+      name: user.displayName || "User",
+      photo: user.photoURL || "",
+    });
+  };
   // ===== Email & Password Login =====
   const onSubmit = (data) => {
     Login(data.email, data.password)
       .then(async (result) => {
-        await getJWT(result.user.email); // ✅ JWT save
+        await saveUser(result.user);
+        await getJWT(result.user.email);
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: "Welcome back to ScholarStream!",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
         reset();
-        navigate(from, { replace: true });
+
+        setTimeout(() => {
+          navigate(from, { replace: true });
+        }, 1500);
       })
       .catch((err) => {
-        console.error(err);
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: err.message,
+        });
       });
   };
 
@@ -51,11 +76,29 @@ const Login = () => {
   const handleGoogleSignin = () => {
     GoogleLogin()
       .then(async (result) => {
-        await getJWT(result.user.email); // ✅ JWT save
+        await saveUser(result.user);
+        await getJWT(result.user.email);
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
         setloading(false);
-        navigate(from, { replace: true });
+
+        setTimeout(() => {
+          navigate(from, { replace: true });
+        }, 1500);
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        Swal.fire({
+          icon: "error",
+          title: "Google Login Failed",
+          text: err.message,
+        })
+      );
   };
 
   return (
@@ -122,7 +165,7 @@ const Login = () => {
                     className="absolute right-4 top-1/2 -translate-y-1/2 
                     cursor-pointer text-gray-500"
                   >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </span>
                 </div>
 

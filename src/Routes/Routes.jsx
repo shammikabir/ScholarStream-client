@@ -21,6 +21,7 @@ import MyReviews from "../Pages/Dashboard/Students/MyReviews/MyReviews";
 import ManageApplication from "../Pages/Dashboard/Moderator/ManageApplication";
 import AllReviews from "../Pages/Dashboard/Moderator/AllReviews";
 import AdminRoute from "./AdminRoute";
+import ModeratorRoute from "./ModeratorRoute";
 
 export const router = createBrowserRouter([
   {
@@ -113,7 +114,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/managescholarship",
         element: (
           <PrivateRoute>
-            <Managescholarship></Managescholarship>
+            <AdminRoute>
+              <Managescholarship></Managescholarship>
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -121,7 +124,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/manageuser",
         element: (
           <PrivateRoute>
-            <ManageUser></ManageUser>
+            <AdminRoute>
+              <ManageUser></ManageUser>
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -129,7 +134,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/analytics",
         element: (
           <PrivateRoute>
-            <Analytics></Analytics>
+            <AdminRoute>
+              <Analytics></Analytics>
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -153,7 +160,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/manageapplications",
         element: (
           <PrivateRoute>
-            <ManageApplication></ManageApplication>
+            <ModeratorRoute>
+              <ManageApplication></ManageApplication>
+            </ModeratorRoute>
           </PrivateRoute>
         ),
       },
@@ -161,7 +170,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/allreviews",
         element: (
           <PrivateRoute>
-            <AllReviews></AllReviews>
+            <ModeratorRoute>
+              <AllReviews></AllReviews>
+            </ModeratorRoute>
           </PrivateRoute>
         ),
       },

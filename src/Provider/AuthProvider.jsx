@@ -12,6 +12,7 @@ import {
 import { app } from "../Firebase/Firebase.config";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
+import axios from "axios";
 const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
@@ -38,13 +39,25 @@ const AuthProvider = ({ children }) => {
 
   //state change...................
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      setuser(currentuser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setuser(currentUser);
+      setloading(true);
+
+      if (currentUser?.email) {
+        // 🔥 JWT generate ONLY here
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
+          email: currentUser.email,
+        });
+
+        localStorage.setItem("access-token", res.data.token);
+      } else {
+        localStorage.removeItem("access-token");
+      }
+
       setloading(false);
     });
-    return () => {
-      unsubscribe();
-    };
+
+    return () => unsubscribe();
   }, []);
 
   //logout..............

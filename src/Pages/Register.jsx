@@ -7,11 +7,15 @@ import { useLocation, useNavigate, Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { updateProfile } from "firebase/auth";
 import loginimg from "../assets/login.png";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
   useDocumentTitle("Register | ScholarStream");
   const { createUser, GoogleLogin } = useContext(AuthContext);
   const [preview, setPreview] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -30,10 +34,11 @@ const Register = () => {
         email: user.email,
         image: user.photoURL,
       });
-      toast.success("Signup Successful");
+
+      Swal.fire("Success", "Signup Successful", "success");
       navigate(from, { replace: true });
     } catch (err) {
-      toast.error(err.message);
+      Swal.fire("Error", err.message, "error");
     }
   };
 
@@ -164,12 +169,12 @@ const Register = () => {
 
               {/* Password */}
               {/* Password */}
-              <div>
+              <div className="relative">
                 <label className="block mb-1 font-medium text-gray-700">
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   className={`w-full px-3 py-2 rounded-xl border
       ${
@@ -196,7 +201,12 @@ const Register = () => {
                     },
                   })}
                 />
-
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-2/3 -translate-y-1/2 cursor-pointer text-gray-500"
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </span>
                 {/* Error Message */}
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">

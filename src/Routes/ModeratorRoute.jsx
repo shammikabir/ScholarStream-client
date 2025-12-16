@@ -1,22 +1,14 @@
-import { Navigate, useLocation } from "react-router";
-import useModerator from "../Hooks/useModerator";
-import { useContext } from "react";
-import { AuthContext } from "../Provider/AuthContext";
+import { Navigate } from "react-router";
+
+import useRole from "../Hooks/useRole";
+import Loading from "../Shared/Loading";
 
 const ModeratorRoute = ({ children }) => {
-  const { user, loading } = useContext(AuthContext);
-  const [isModerator, isModeratorLoading] = useModerator();
-  const location = useLocation();
+  const [role, isRoleLoading] = useRole();
 
-  if (loading || isModeratorLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (user && isModerator) {
-    return children;
-  }
-
-  return <Navigate to="/auth/login" state={{ from: location }} replace />;
+  if (isRoleLoading) return <Loading></Loading>;
+  if (role === "moderator") return children;
+  return <Navigate to="/" replace="true" />;
 };
 
 export default ModeratorRoute;

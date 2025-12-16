@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const AllReviews = () => {
   const [reviews, setReviews] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     axios
@@ -25,7 +27,7 @@ const AllReviews = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/reviews/${id}`);
+      await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/reviews/${id}`);
       setReviews((prev) => prev.filter((r) => r._id !== id));
 
       Swal.fire("Deleted!", "Review has been removed.", "success");

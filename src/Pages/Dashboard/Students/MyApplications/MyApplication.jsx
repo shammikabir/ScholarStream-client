@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
+
 import { useNavigate } from "react-router";
 
 import { AuthContext } from "../../../../Provider/AuthContext";
@@ -8,11 +8,13 @@ import ApplicationDetails from "./ApplicationDetails";
 // import ApplicationEditModal from "./ApplicationEditModal";
 import AddReviewModal from "./AddReviewModal";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const MyApplication = () => {
   const { user, loading, setloading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
   // Modals
   const [selectedAppDetails, setSelectedAppDetails] = useState(null);
@@ -23,7 +25,7 @@ const MyApplication = () => {
     if (!user) return;
     const fetchApplications = async () => {
       try {
-        const res = await axios.get(
+        const res = await axiosSecure.get(
           `${import.meta.env.VITE_API_URL}/applications/${user.email}`
         );
         setApplications(res.data);
@@ -53,7 +55,7 @@ const MyApplication = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await axios.delete(
+      await axiosSecure.delete(
         `${import.meta.env.VITE_API_URL}/applications/${appId}`
       );
 

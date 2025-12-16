@@ -1,17 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router";
-import axios from "axios";
+// import axios from "axios";
 import { TbListDetails } from "react-icons/tb";
 import { AuthContext } from "../Provider/AuthContext";
 import ReviewSection from "./Reviewsection";
 import Loading from "../Shared/Loading";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const ScholarshipDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user, loading, setloading } = useContext(AuthContext);
   const [isApplied, setIsApplied] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const [scholarship, setScholarship] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -19,19 +21,19 @@ const ScholarshipDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const scholarshipRes = await axios.get(
+        const scholarshipRes = await axiosSecure.get(
           `${import.meta.env.VITE_API_URL}/scholarships/${id}`
         );
         setScholarship(scholarshipRes.data);
 
-        const reviewsRes = await axios.get(
+        const reviewsRes = await axiosSecure.get(
           `${import.meta.env.VITE_API_URL}/reviews/${id}`
         );
         setReviews(Array.isArray(reviewsRes.data) ? reviewsRes.data : []);
 
         // ✅ already applied check
         if (user?.email) {
-          const checkRes = await axios.get(
+          const checkRes = await axiosSecure.get(
             `${import.meta.env.VITE_API_URL}/applications/check`,
             {
               params: {
@@ -94,7 +96,7 @@ const ScholarshipDetails = () => {
     };
 
     try {
-      const res = await axios.post(
+      const res = await axiosSecure.post(
         `${import.meta.env.VITE_API_URL}/applications`,
         applicationData
       );

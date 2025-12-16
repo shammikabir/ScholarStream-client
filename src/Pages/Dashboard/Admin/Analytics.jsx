@@ -15,6 +15,7 @@ import {
 } from "recharts";
 import { AuthContext } from "../../../Provider/AuthContext";
 import { FaUsers, FaDollarSign, FaGraduationCap } from "react-icons/fa";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const GRADIENTS = [
   { start: "#1b4636", end: "#54b89a" },
@@ -28,6 +29,7 @@ const PIE_COLORS = ["#146c43", "#2e7d65", "#54b89a", "#8cdac0", "#c1f2e3"];
 
 const Analytics = () => {
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalFees: 0,
@@ -42,7 +44,7 @@ const Analytics = () => {
   }, []);
 
   const fetchAnalytics = async () => {
-    const { data } = await axios.get(
+    const { data } = await axiosSecure.get(
       `${import.meta.env.VITE_API_URL}/analytics`
     );
     setStats({
@@ -108,39 +110,35 @@ const Analytics = () => {
             Applications per University
           </h2>
 
-          <BarChart
-            lg:width={450}
-            height={300}
-            data={universityData}
-            margin={{ bottom: 50, top: 20 }}
-          >
-            <XAxis
-              dataKey="university"
-              tick={{ fontSize: 12 }}
-              interval={0}
-              angle={-20}
-              textAnchor="end"
-            />
+          <div className="w-full" style={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={universityData} margin={{ bottom: 50, top: 20 }}>
+                <XAxis
+                  dataKey="university"
+                  tick={{ fontSize: 12 }}
+                  interval={0}
+                  angle={-20}
+                  textAnchor="end"
+                />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                  {universityData.map((entry, index) => {
+                    const values = universityData.map((u) => u.count);
+                    const max = Math.max(...values);
+                    const min = Math.min(...values);
 
-            <YAxis allowDecimals={false} />
+                    let color = "#1b4636"; // mid default
 
-            <Tooltip />
+                    if (entry.count === max) color = "Black";
+                    else if (entry.count === min) color = "#c1f2e3";
 
-            <Bar dataKey="count" radius={[6, 6, 0, 0]}>
-              {universityData.map((entry, index) => {
-                const values = universityData.map((u) => u.count);
-                const max = Math.max(...values);
-                const min = Math.min(...values);
-
-                let color = "#1b4636"; // mid default
-
-                if (entry.count === max) color = "Black";
-                else if (entry.count === min) color = "#c1f2e3";
-
-                return <Cell key={index} fill={color} />;
-              })}
-            </Bar>
-          </BarChart>
+                    return <Cell key={index} fill={color} />;
+                  })}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Pie Chart */}

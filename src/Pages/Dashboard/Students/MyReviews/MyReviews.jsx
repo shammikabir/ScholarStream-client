@@ -4,22 +4,30 @@ import Swal from "sweetalert2";
 import EditReviewModal from "./EditReviewModal";
 import { AuthContext } from "../../../../Provider/AuthContext";
 import Loading from "../../../../Shared/Loading";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const MyReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [selectedReview, setSelectedReview] = useState(null);
-
+  const axiosSecure = useAxiosSecure();
   const { user, loading, setloading } = useContext(AuthContext);
 
   // 🔹 fetch my reviews
   useEffect(() => {
     if (user?.email) {
-      axios
+      axiosSecure
         .get(`${import.meta.env.VITE_API_URL}/my-reviews/${user.email}`)
         .then((res) => setReviews(res.data))
         .catch((err) => console.error(err));
     }
   }, [user]);
+
+  //review update
+  const handleReviewUpdate = (updatedReview) => {
+    setReviews((prevReviews) =>
+      prevReviews.map((r) => (r._id === updatedReview._id ? updatedReview : r))
+    );
+  };
 
   // 🔹 delete review
   const handleDelete = async (id) => {
@@ -35,7 +43,7 @@ const MyReviews = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/reviews/${id}`);
+      await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/reviews/${id}`);
       setReviews(reviews.filter((r) => r._id !== id));
 
       Swal.fire("Deleted!", "Your review has been deleted.", "success");
@@ -106,14 +114,7 @@ const MyReviews = () => {
         <EditReviewModal
           review={selectedReview}
           onClose={() => setSelectedReview(null)}
-          onUpdate={(updatedReview) => {
-            setReviews(
-              reviews.map((r) =>
-                r._id === updatedReview._id ? updatedReview : r
-              )
-            );
-            setSelectedReview(null);
-          }}
+          onUpdate={handleReviewUpdate}
         />
       )}
     </div>

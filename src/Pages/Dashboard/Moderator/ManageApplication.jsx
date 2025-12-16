@@ -3,20 +3,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ApplicationDetails from "./ApplicationDetails";
 import FeedbackModal from "./FeedbackModal";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const ManageApplications = () => {
   const [applications, setApplications] = useState([]);
   const [selectedApp, setSelectedApp] = useState(null);
   const [feedbackApp, setFeedbackApp] = useState(null);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get(`${import.meta.env.VITE_API_URL}/applications`)
       .then((res) => setApplications(res.data));
   }, []);
 
   const updateStatus = async (id, status) => {
-    await axios.put(
+    await axiosSecure.put(
       `${import.meta.env.VITE_API_URL}/applications/status/${id}`,
       { status }
     );

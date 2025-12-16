@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaStar } from "react-icons/fa";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const EditReviewModal = ({ review, onClose, onUpdate }) => {
   const [rating, setRating] = useState(review.rating);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState(review.comment);
   const [loading, setLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const handleUpdate = async () => {
     if (!comment.trim()) {
@@ -23,7 +25,7 @@ const EditReviewModal = ({ review, onClose, onUpdate }) => {
     try {
       setLoading(true);
 
-      const res = await axios.put(
+      const res = await axiosSecure.put(
         `${import.meta.env.VITE_API_URL}/reviews/${review._id}`,
         { rating: Number(rating), comment }
       );

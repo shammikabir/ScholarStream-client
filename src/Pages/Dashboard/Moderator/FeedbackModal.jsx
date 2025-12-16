@@ -1,11 +1,13 @@
 // FeedbackModal.jsx
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const FeedbackModal = ({ application, onClose }) => {
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const handleSubmit = async () => {
     if (!feedback.trim()) {
@@ -16,7 +18,7 @@ const FeedbackModal = ({ application, onClose }) => {
     try {
       setLoading(true);
 
-      await axios.put(
+      await axiosSecure.put(
         `${import.meta.env.VITE_API_URL}/applications/feedback/${
           application._id
         }`,
@@ -36,7 +38,7 @@ const FeedbackModal = ({ application, onClose }) => {
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4">
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 bg-gradient-to-r from-[#276B51] to-[#1a3c30] flex justify-between items-center">
+        <div className="px-6 py-4 bg-linear-to-r from-[#276B51] to-[#1a3c30] flex justify-between items-center">
           <h3 className="text-xl font-bold text-white">Application Feedback</h3>
           <button onClick={onClose} className="text-white text-3xl">
             &times;

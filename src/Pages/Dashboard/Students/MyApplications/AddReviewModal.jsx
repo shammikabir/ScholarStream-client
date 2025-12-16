@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaStar } from "react-icons/fa";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const AddReviewModal = ({ application, onClose, onAddReview }) => {
   const [rating, setRating] = useState(5);
@@ -10,6 +11,7 @@ const AddReviewModal = ({ application, onClose, onAddReview }) => {
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const axiosSecure = useAxiosSecure();
   const renderStarsText = (count) => "⭐".repeat(count);
 
   const handleSubmit = async () => {
@@ -25,15 +27,18 @@ const AddReviewModal = ({ application, onClose, onAddReview }) => {
     try {
       setLoading(true);
 
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, {
-        scholarshipId: application.scholarshipId,
-        studentEmail: application.studentEmail,
-        scholarshipName: application.scholarshipName,
-        universityName: application.universityName,
-        rating,
-        comment,
-        createdAt: new Date(),
-      });
+      const res = await axiosSecure.post(
+        `${import.meta.env.VITE_API_URL}/reviews`,
+        {
+          scholarshipId: application.scholarshipId,
+          studentEmail: application.studentEmail,
+          scholarshipName: application.scholarshipName,
+          universityName: application.universityName,
+          rating,
+          comment,
+          createdAt: new Date(),
+        }
+      );
 
       Swal.fire({
         icon: "success",
