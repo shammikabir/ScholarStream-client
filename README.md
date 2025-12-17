@@ -7,7 +7,7 @@ ScholarStream is a full-stack MERN application that connects students with globa
 ## 🔗 Live & Repositories
 
 - **Live Site:** https://your-live-site-link.com
-- **Server:** https://github.com/your-username/scholarstream-server
+- **Server:** https://github.com/shammikabir/ScholarStream-server
 
 ---
 

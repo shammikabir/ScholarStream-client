@@ -8,7 +8,6 @@ import { FcGoogle } from "react-icons/fc";
 import { updateProfile } from "firebase/auth";
 import loginimg from "../assets/login.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Swal from "sweetalert2";
 import axios from "axios";
 
 const Register = () => {
@@ -26,6 +25,7 @@ const Register = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  // Handle Google Sign In
   const handleGoogleSignIn = async () => {
     try {
       const { user } = await GoogleLogin();
@@ -34,14 +34,14 @@ const Register = () => {
         email: user.email,
         image: user.photoURL,
       });
-
-      Swal.fire("Success", "Signup Successful", "success");
+      toast.success("Signup Successful");
       navigate(from, { replace: true });
     } catch (err) {
-      Swal.fire("Error", err.message, "error");
+      toast.error(err.message); // show Firebase error in toast
     }
   };
 
+  // Handle normal registration
   const onSubmit = async (data) => {
     const { name, image, email, password } = data;
     const imageFile = image[0];
@@ -56,10 +56,28 @@ const Register = () => {
       toast.success("Registration Successful");
       navigate(from, { replace: true });
     } catch (error) {
-      toast.error(error.message);
+      // Show Firebase error in toast
+      if (error.code) {
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            toast.error("Email is already in use");
+            break;
+          case "auth/invalid-email":
+            toast.error("Invalid email address");
+            break;
+          case "auth/weak-password":
+            toast.error("Password is too weak");
+            break;
+          default:
+            toast.error(error.message);
+        }
+      } else {
+        toast.error(error.message);
+      }
     }
   };
 
+  // Image Preview
   const handleImagePreview = (e) => {
     const file = e.target.files[0];
     if (file) setPreview(URL.createObjectURL(file));
@@ -121,7 +139,7 @@ const Register = () => {
                       <img
                         src={preview}
                         alt="Preview"
-                        className=" object-cover"
+                        className="object-cover"
                       />
                     ) : (
                       <span className="text-black text-sm">Upload</span>
@@ -168,7 +186,6 @@ const Register = () => {
               </div>
 
               {/* Password */}
-              {/* Password */}
               <div className="relative">
                 <label className="block mb-1 font-medium text-gray-700">
                   Password
@@ -207,7 +224,6 @@ const Register = () => {
                 >
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </span>
-                {/* Error Message */}
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.password.message}
