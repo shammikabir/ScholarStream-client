@@ -3,9 +3,11 @@ import { FaStar } from "react-icons/fa";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { MdRateReview } from "react-icons/md";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const ReviewSection = ({ user, scholarshipId, reviews, setReviews }) => {
   const [newReview, setNewReview] = useState({ rating: 0, comment: "" });
+  const axiosSecure = useAxiosSecure();
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
@@ -20,13 +22,16 @@ const ReviewSection = ({ user, scholarshipId, reviews, setReviews }) => {
     }
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, {
-        scholarshipId,
-        ratingPoint: newReview.rating,
-        reviewComment: newReview.comment,
-        userName: user.displayName || "Anonymous",
-        userImage: user.photoURL || "https://i.ibb.co/fxJ1Z0k/user.png",
-      });
+      const res = await axiosSecure.post(
+        `${import.meta.env.VITE_API_URL}/reviews`,
+        {
+          scholarshipId,
+          ratingPoint: newReview.rating,
+          reviewComment: newReview.comment,
+          userName: user.displayName || "Anonymous",
+          userImage: user.photoURL || "https://i.ibb.co/fxJ1Z0k/user.png",
+        }
+      );
 
       setReviews([res.data, ...reviews]);
       setNewReview({ rating: 0, comment: "" });
