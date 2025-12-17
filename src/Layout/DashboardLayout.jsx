@@ -8,7 +8,7 @@ const DashboardLayout = () => {
   return (
     <div>
       <DashboardTopbar></DashboardTopbar>
-      <div className="relative min-h-screen md:flex bg-[#f6f4eb]">
+      <div className="relative min-h-screen md:flex bg-linear-to-b from-[#e9f7f3] to-[#ffffff]">
         {/* Left Side: Sidebar Component */}
         <Sidebar />
         {/* Right Side: Dashboard Dynamic Content */}

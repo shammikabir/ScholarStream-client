@@ -72,7 +72,7 @@ const ManageScholarships = () => {
   return (
     <div className="p-4 md:p-0">
       {/* Desktop TABLE */}
-      <div className="hidden lg:block md:hidden overflow-x-auto shadow-xl rounded-xl border border-gray-200">
+      <div className="hidden lg:block md:hidden overflow-x-auto shadow-xl rounded-xl border border-gray-200 bg-white">
         <table className="table w-full">
           <thead className="bg-[#1b4636] text-white text-sm sticky top-0 z-10">
             <tr>

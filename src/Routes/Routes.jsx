@@ -22,11 +22,13 @@ import ManageApplication from "../Pages/Dashboard/Moderator/ManageApplication";
 import AllReviews from "../Pages/Dashboard/Moderator/AllReviews";
 import AdminRoute from "./AdminRoute";
 import ModeratorRoute from "./ModeratorRoute";
+import ErrorPage from "../Pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,
@@ -73,6 +75,7 @@ export const router = createBrowserRouter([
   {
     path: "/auth",
     Component: AuthenticationLayout,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/auth/login",
@@ -91,6 +94,7 @@ export const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,

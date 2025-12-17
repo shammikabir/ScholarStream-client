@@ -47,20 +47,27 @@ const AddScholarshipForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-5 px-4">
-      <div className="max-w-4xl w-full bg-white rounded-3xl shadow-xl overflow-hidden">
+    <div className="flex justify-center items-start min-h-screen bg-linear-to-b from-[#e9f7f3] to-[#ffffff] px-4">
+      <div className="max-w-6xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="w-full p-6 flex items-center justify-center gap-3 bg-linear-to-r from-[#1a3c30] via-[#276B51] to-[#2C6B58] shadow-lg">
-          <GiGraduateCap size={32} className="text-yellow-300" />
-          <h2 className="text-2xl font-bold text-white">Add New Scholarship</h2>
+          <GiGraduateCap size={30} className="text-yellow-300" />
+          <h2 className="text-2xl md:text-3xl font-bold text-white text-center">
+            Add New Scholarship
+          </h2>
         </div>
-        <hr className="border-3" />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-8">
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6 p-6 md:p-8"
+        >
           {/* Image Upload */}
           <div>
-            <label className="block font-semibold mb-2">University Image</label>
-            <div className="border-2 border-dashed border-gray-400 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-green-600 transition">
+            <label className="block font-semibold mb-2 text-gray-700">
+              University Image
+            </label>
+            <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-green-500 transition">
               <input
                 type="file"
                 accept="image/*"
@@ -73,7 +80,7 @@ const AddScholarshipForm = () => {
               />
               <label
                 htmlFor="imageUpload"
-                className="cursor-pointer text-gray-700 font-semibold hover:text-green-900"
+                className="cursor-pointer text-gray-600 font-semibold hover:text-green-700"
               >
                 Click or Drag to Upload
               </label>
@@ -81,7 +88,7 @@ const AddScholarshipForm = () => {
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="mt-4 w-40 h-40 object-cover rounded-xl shadow-md border border-gray-300"
+                  className="mt-4 w-40 h-40 object-cover rounded-xl shadow-md border border-gray-200"
                 />
               )}
             </div>
@@ -90,135 +97,157 @@ const AddScholarshipForm = () => {
           {/* Text Fields Grid */}
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block font-semibold mb-1">
+              <label className="block font-semibold mb-1 text-gray-700">
                 Scholarship Name
               </label>
               <input
                 {...register("scholarshipName", { required: true })}
                 type="text"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: Excellence Scholarship"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
             <div>
-              <label className="block font-semibold mb-1">
+              <label className="block font-semibold mb-1 text-gray-700">
                 University Name
               </label>
               <input
                 {...register("universityName", { required: true })}
                 type="text"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: Harvard University"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block font-semibold mb-1">Country</label>
+              <label className="block font-semibold mb-1 text-gray-700">
+                Country
+              </label>
               <input
                 {...register("country", { required: true })}
                 type="text"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: USA"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
             <div>
-              <label className="block font-semibold mb-1">City</label>
+              <label className="block font-semibold mb-1 text-gray-700">
+                City
+              </label>
               <input
                 {...register("city", { required: true })}
                 type="text"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: Boston"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block font-semibold mb-1">World Rank</label>
+              <label className="block font-semibold mb-1 text-gray-700">
+                World Rank
+              </label>
               <input
                 {...register("worldRank", { required: true })}
                 type="number"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: 5"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
             <div>
-              <label className="block font-semibold mb-1">
+              <label className="block font-semibold mb-1 text-gray-700">
                 Subject Category
               </label>
               <input
                 {...register("subjectCategory", { required: true })}
                 type="text"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: Computer Science"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block font-semibold mb-1">
+              <label className="block font-semibold mb-1 text-gray-700">
                 Scholarship Category
               </label>
               <select
                 {...register("scholarshipCategory", { required: true })}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               >
                 <option value="">Select Category</option>
                 <option value="Full Fund">Full Fund</option>
                 <option value="Partial Fund">Partial Fund</option>
                 <option value="Self Fund">Self Fund</option>
-                <option value="Partial Fund">Merit Fund</option>
-                <option value="Self Fund">Research Fund</option>
+                <option value="Merit Fund">Merit Fund</option>
+                <option value="Research Fund">Research Fund</option>
               </select>
             </div>
             <div>
-              <label className="block font-semibold mb-1">Degree</label>
+              <label className="block font-semibold mb-1 text-gray-700">
+                Degree
+              </label>
               <select
                 {...register("degree", { required: true })}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               >
                 <option value="">Select Degree</option>
                 <option value="Diploma">Diploma</option>
                 <option value="Bachelor">Bachelor</option>
                 <option value="Masters">Masters</option>
-                <option value="Masters">Phd</option>
+                <option value="PhD">PhD</option>
               </select>
             </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-4">
             <div>
-              <label className="block font-semibold mb-1">Tuition Fees</label>
+              <label className="block font-semibold mb-1 text-gray-700">
+                Tuition Fees
+              </label>
               <input
                 {...register("tuitionFees")}
                 type="number"
                 placeholder="Optional"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
             <div>
-              <label className="block font-semibold mb-1">
+              <label className="block font-semibold mb-1 text-gray-700">
                 Application Fees
               </label>
               <input
                 {...register("applicationFees", { required: true })}
                 type="number"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: 50"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
             <div>
-              <label className="block font-semibold mb-1">Service Charge</label>
+              <label className="block font-semibold mb-1 text-gray-700">
+                Service Charge
+              </label>
               <input
                 {...register("serviceCharge", { required: true })}
                 type="number"
-                className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+                placeholder="Ex: 10"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-semibold mb-1">Deadline</label>
+            <label className="block font-semibold mb-1 text-gray-700">
+              Deadline
+            </label>
             <input
               {...register("deadline", { required: true })}
               type="date"
-              className="w-full p-3 rounded-lg border border-gray-300 focus:border-green-500 outline-none shadow-sm"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none shadow-sm"
             />
           </div>
 
@@ -226,7 +255,7 @@ const AddScholarshipForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 mt-4 text-white font-bold rounded-xl bg-black hover:bg-[#1a3c30] shadow-lg transition-all text-xl"
+            className="w-full py-3 mt-4 text-white font-bold rounded-xl bg-linear-to-r from-[#276B51] to-[#1a3c30] hover:scale-105 transition-all text-xl shadow-lg"
           >
             {loading ? "Submitting..." : "Add Scholarship"}
           </button>

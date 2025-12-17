@@ -73,13 +73,13 @@ const ManageUser = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
+      <h2 className="text-3xl font-bold mb-4 text-center">Manage Users</h2>
 
       {/* Filter */}
-      <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center">
+      <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center items-center justify-center mt-3 ">
         <label className="font-semibold">Filter by Role:</label>
         <select
-          className="border px-3 py-2 rounded-md lg:max-w-xs"
+          className="border px-5 py-2 rounded-md lg:max-w-xs"
           value={filterRole}
           onChange={(e) => setFilterRole(e.target.value)}
         >

@@ -1,16 +1,86 @@
-# React + Vite
+# 🎓 ScholarStream – Scholarship Management Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ScholarStream is a full-stack MERN application that connects students with global scholarship opportunities. It provides a secure, role-based system for searching, applying, reviewing, and managing scholarships in a centralized platform.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Live & Repositories
 
-## React Compiler
+- **Live Site:** https://your-live-site-link.com
+- **Server:** https://github.com/your-username/scholarstream-server
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🎯 Project Purpose
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+ScholarStream simplifies the scholarship application process by allowing students to discover and apply for scholarships easily, while enabling moderators and admins to efficiently manage applications, users, and platform data.
+
+---
+
+## 🚀 Core Features
+
+### 🔐 Authentication & Security
+
+- Firebase Authentication (Email/Password + Google)
+- JWT-based API protection
+- Role-based authorization (Student / Moderator / Admin)
+- Reload-safe private routes
+
+### 🏠 Public Pages
+
+- Home page with banner, top scholarships & Framer Motion animation
+- All Scholarships with **server-side search, filter, sort & pagination**
+- Scholarship details with reviews
+- Custom 404 page
+
+### 💳 Payment System
+
+- Stripe checkout integration
+- Payment success & failure handling
+- Retry payment from dashboard
+- Application saved with paid/unpaid status
+
+---
+
+## 🧑‍💻 Dashboards (Role-Based)
+
+### Student
+
+- View & manage applications
+- Pay application fees
+- Receive moderator feedback
+- Add & manage reviews
+
+### Moderator
+
+- Review applications
+- Update status & provide feedback
+- Reject applications
+- Moderate reviews
+
+### Admin
+
+- Manage users & roles
+- Add / update / delete scholarships
+- View analytics (users, fees, scholarships)
+- Charts for data visualization
+
+---
+
+## 🗂️ Database Collections (Mongodb Atlas)
+
+- Users
+- Scholarships
+- Applications
+- Reviews
+
+---
+
+## ⚙️ Technology Stack
+
+**Frontend:** React, JavaScript, Tailwind CSS, Framer Motion  
+**Backend:** Node.js, Express.js, MongoDB, JWT Token Verification
+**Auth & Payment:** Firebase, Stripe  
+**Tools:** TanStack Query, Axios, Recharts
+
+---

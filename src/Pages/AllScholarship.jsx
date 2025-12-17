@@ -6,13 +6,19 @@ import { GiGraduateCap } from "react-icons/gi";
 import ScholarshipCard from "./ScholarshipCard"; // import card
 import { FaSearch } from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
+import { FaSortAmountDownAlt, FaSortAmountUp } from "react-icons/fa";
 
 const AllScholarship = () => {
   const [search, setSearch] = useState("");
   const [country, setCountry] = useState("");
-  const [category, setCategory] = useState("");
+  const [sort, setSort] = useState("");
+
   const [scholarships, setScholarships] = useState([]);
   const { loading } = useContext(AuthContext);
+  const [page, setPage] = useState(1);
+  const limit = 6;
+
+  const [totalPages, setTotalPages] = useState(1);
 
   const countries = ["Germany", "USA", "UK", "Canada", "Australia"];
 
@@ -21,7 +27,7 @@ const AllScholarship = () => {
       try {
         const { data } = await axios.get(
           `${import.meta.env.VITE_API_URL}/allscholarships/filter`,
-          { params: { search, country, category } }
+          { params: { search, country } }
         );
         setScholarships(data);
       } catch (err) {
@@ -29,7 +35,46 @@ const AllScholarship = () => {
       }
     };
     fetchScholarships();
-  }, [search, country, category]);
+  }, [search, country]);
+
+  //sort
+  useEffect(() => {
+    const loadSortedScholarships = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/allscholarships/sort`,
+          {
+            params: { sort },
+          }
+        );
+        setScholarships(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadSortedScholarships();
+  }, [sort]);
+
+  //pagination
+  useEffect(() => {
+    const fetchScholarships = async () => {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/allscholarships/paginated`,
+        {
+          params: {
+            page,
+            limit,
+          },
+        }
+      );
+
+      setScholarships(data.scholarships);
+      setTotalPages(data.totalPages);
+    };
+
+    fetchScholarships();
+  }, [page]);
 
   if (loading) {
     return (
@@ -83,6 +128,32 @@ const AllScholarship = () => {
               <FaFileDownload size={20} className="text-blue-600" />
             </span>
           </div>
+          {/* sort */}
+          <div className="flex justify-center my-8">
+            <div className="relative w-full max-w-xs">
+              {/* Icon */}
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
+                {sort === "b-a" ? (
+                  <FaSortAmountDownAlt size={18} />
+                ) : (
+                  <FaSortAmountUp size={18} />
+                )}
+              </div>
+
+              {/* Select */}
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 bg-white
+                 focus:outline-none focus:ring-2 focus:ring-green-600
+                 shadow-sm text-gray-700 font-medium appearance-none cursor-pointer"
+              >
+                <option value="">Sort by Application Fee</option>
+                <option value="a-b">Fee: Low → High</option>
+                <option value="b-a">Fee: High → Low</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Grid */}
@@ -97,6 +168,24 @@ const AllScholarship = () => {
             ))
           )}
         </div>
+      </div>
+
+      {/* paginate button */}
+      <div className="flex justify-center mt-12 gap-2 mb-15">
+        {[...Array(totalPages).keys()].map((num) => (
+          <button
+            key={num}
+            onClick={() => setPage(num + 1)}
+            className={`px-4 py-2 rounded-lg font-semibold transition
+        ${
+          page === num + 1
+            ? "bg-black text-white"
+            : "bg-white border border-gray-300 hover:bg-gray-100"
+        }`}
+          >
+            {num + 1}
+          </button>
+        ))}
       </div>
     </div>
   );
